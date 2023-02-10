@@ -1,0 +1,48 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff;
+  padding: 6rem;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    font-family: raustila;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    color: #9b0ad0;
+    font-size: 54px;
+  }
+}
+
+.container__info {
+  display: flex;
+  padding: 0 60px;
+  gap: 50px;
+  margin-top: 10px;
+}
+
+.info__data {
+  text-align: center;
+  padding-top: 12%;
+
+  h2 {
+    font-family: oswald;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    color: #9b0ad0;
+    font-size: 36px;
+  }
+}
