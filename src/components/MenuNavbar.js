@@ -2,13 +2,21 @@ import { Menu, Divider, createStyles, Modal } from "@mantine/core";
 import { UserCheck, UserOff, User } from "tabler-icons-react";
 import axios from "axios";
 // import { parse } from "cookie";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  showLoginNav,
+  hiddeRegisterForm,
+  hiddeLoginNav,
+} from "@/store/actions/modalAction";
 import Link from "next/link";
 // import dayjs from "dayjs";
 
 import { useMediaQuery } from "@mantine/hooks";
 import Login from "./Login";
 import { useEffect, useState } from "react";
+import PublicModal from "./PublicModal";
+import Register from "./Register";
+import { logout } from "@/store/actions/authAction";
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -16,7 +24,7 @@ const useStyles = createStyles((theme) => ({
       backgroundColor:
         theme.colorScheme === "dark"
           ? theme.colors.dark[5]
-          : theme.colors.green[9],
+          : theme.colors.violet[9],
       color: theme.white,
     },
   },
@@ -32,12 +40,14 @@ export default function MenuNavbar() {
   // const isAuth = cookie.name;
   const [opened, setOpened] = useState(false);
   // const [auth, setAuth] = useState({});
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const thisDay = dayjs().$d.toString().substr(0, 24);
   // console.log("esto es cookies", cookies);
-  // const largeScreen = useMediaQuery("(min-width: 1024px)");
-  // const { isAuth } = useSelector((state) => state.authReducer);
-  // const { boxActive, balance } = useSelector((state) => state.boxReducer);
+  const largeScreen = useMediaQuery("(min-width: 1024px)");
+  const { isAuth } = useSelector((state) => state.authReducer);
+  const { showingLoginNav, showingRegisterForm } = useSelector(
+    (state) => state.modalReducer
+  );
 
   const { classes } = useStyles();
 
@@ -50,7 +60,10 @@ export default function MenuNavbar() {
   //   };
   //   getUser();
   // }, [opened]);
-
+  const handleClick = (event) => {
+    event.preventDefault();
+    dispatch(showLoginNav());
+  };
   // const handleClick = async (event) => {
   //   event.preventDefault();
   //   const response = await axios.get("/api/user/profile");
@@ -58,9 +71,9 @@ export default function MenuNavbar() {
   //   // dispatch(showLoginForm());
   // };
   const handleClick2 = async (event) => {
-    const response = await axios.post("/api/user/logout");
-    console.log(response);
-    // event.preventDefault();
+    event.preventDefault();
+    dispatch(logout());
+
     // if (!boxActive) {
     //   return dispatch(logout());
     // }
@@ -96,16 +109,15 @@ export default function MenuNavbar() {
         <Menu.Dropdown>
           <Menu.Label>User</Menu.Label>
 
-          <Menu.Item onClick={handleClick2} icon={<UserOff size={14} />}>
-            Logout
-          </Menu.Item>
-
-          <Menu.Item
-            onClick={() => setOpened(true)}
-            icon={<UserCheck size={14} />}
-          >
-            Login
-          </Menu.Item>
+          {isAuth ? (
+            <Menu.Item onClick={handleClick2} icon={<UserOff size={14} />}>
+              Logout
+            </Menu.Item>
+          ) : (
+            <Menu.Item onClick={handleClick} icon={<UserCheck size={14} />}>
+              Login
+            </Menu.Item>
+          )}
 
           <Divider />
 
@@ -114,11 +126,17 @@ export default function MenuNavbar() {
           {/* </Link> */}
 
           {/* <Link href="/userProfile" prefetch={false}> */}
-          <Menu.Item icon={<User size={14} />}>Perfil</Menu.Item>
+          {isAuth ? (
+            <Link href="/userProfile" prefetch={false}>
+              <Menu.Item icon={<User size={14} />}>Perfil</Menu.Item>
+            </Link>
+          ) : (
+            <Menu.Item>Wellcome</Menu.Item>
+          )}
           {/* </Link> */}
         </Menu.Dropdown>
       </Menu>
-      {/* <PublicModal
+      <PublicModal
         opened={showingRegisterForm}
         onClose={() => dispatch(hiddeRegisterForm())}
         size={largeScreen ? "50%" : "90%"}
@@ -126,13 +144,13 @@ export default function MenuNavbar() {
         <Register />
       </PublicModal>
       <PublicModal
-        opened={showingLoginForm}
-        onClose={() => dispatch(hiddeLoginForm())}
+        opened={showingLoginNav}
+        onClose={() => dispatch(hiddeLoginNav())}
         size={largeScreen ? "30%" : "90%"}
       >
         <Login />
       </PublicModal>
-      <PublicModal
+      {/* <PublicModal
         opened={showRecoverPassword}
         onClose={() => dispatch(hiddeRecoverPassword())}
       >
