@@ -1,16 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Calendar } from "@mantine/dates";
+import dayjs from "dayjs";
 // import { useNavigate } from "react-router-dom";
 import { showLoginNav, hiddeRegisterForm } from "../store/actions/modalAction";
+import { Button, Popover } from "@mantine/core";
 // import ButtonAction from "../ButtonAction";
 import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { register } from "../store/actions/authAction";
+import { registerWorker } from "@/store/actions/workerAction";
 
 export default function WorkerForm() {
+  const [value, setValue] = useState(false);
+  const [opened, setOpened] = useState(false);
+  const dataDate = dayjs(value);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -25,6 +32,31 @@ export default function WorkerForm() {
     occupationalRiskInsurer: "",
   });
 
+  const month = {
+    0: "Ene",
+    1: "Feb",
+    2: "Mar",
+    3: "Abr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Ago",
+    8: "Sep",
+    9: "Oct",
+    10: "Nov",
+    11: "Dic",
+  };
+
+  const week = {
+    0: "Dom",
+    1: "Lun",
+    2: "Mar",
+    3: "Mie",
+    4: "Jue",
+    5: "Vie",
+    6: "Sab",
+  };
+
   const dispatch = useDispatch();
   // const navigate = useNavigate();
 
@@ -37,10 +69,10 @@ export default function WorkerForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    formData.dateOfAdmission = value;
+    dispatch(registerWorker(formData));
 
-    // dispatch(register(formData));
-
-    dispatch(hiddeRegisterForm());
+    // dispatch(hiddeRegisterForm());
   };
 
   return (
@@ -94,16 +126,6 @@ export default function WorkerForm() {
           placeholder="Numero"
           onChange={onChange}
           errorMessage="Numero no debe estar vacio"
-          required
-        />
-        <InputValidator
-          name="dateOfAdmission"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Fecha de Ingreso"
-          onChange={onChange}
-          errorMessage="No debe estar vacio"
           required
         />
         <InputValidator
@@ -166,6 +188,39 @@ export default function WorkerForm() {
           errorMessage="No debe estar vacio"
           required
         />
+
+        <Popover
+          style={{ marginTop: 5, borderRadius: 30 }}
+          sx={(theme) => ({
+            backgroundColor: "purple",
+            "&:hover": {
+              backgroundColor: theme.colors.violet[6],
+            },
+          })}
+          opened={opened}
+          onClose={() => setOpened(false)}
+          width={310}
+          position="top"
+          withArrow
+        >
+          <Popover.Target>
+            <Button variant="violet" onClick={() => setOpened(true)}>
+              Fecha de Ingreso
+            </Button>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Calendar value={value} onChange={setValue} locale="es-mx" />
+          </Popover.Dropdown>
+        </Popover>
+        <div className={styles.date__worker}>
+          {!value ? (
+            <h1>Seleccionar Fecha</h1>
+          ) : (
+            <h1>
+              {month[dataDate.$M]} {dataDate.$D} {dataDate.$y}
+            </h1>
+          )}
+        </div>
       </div>
       <div className={styles.register__worker}>
         <button
