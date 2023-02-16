@@ -45,6 +45,11 @@ const workerSchema = new Schema(
       required: true,
       type: String,
     },
+    activeEmployee: {
+      required: true,
+      type: Boolean,
+    },
+
     workedDays: {
       type: [{ type: Schema.Types.ObjectId, ref: "Worked" }],
     },

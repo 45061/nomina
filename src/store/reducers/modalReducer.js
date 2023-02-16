@@ -4,12 +4,14 @@ import {
   SHOW_REGISTER_FORM,
   HIDDE_REGISTER_FORM,
   WORKER_REGISTER_FORM,
+  WORKER_DAY_FORM,
 } from "../types";
 
 const initialState = {
   showingLoginNav: false,
   showingRegisterForm: false,
   showingWorkerRegisterForm: false,
+  showingWorkerDayForm: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -40,6 +42,11 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showingWorkerRegisterForm: !state.showingWorkerRegisterForm,
+      };
+    case WORKER_DAY_FORM:
+      return {
+        ...state,
+        showingWorkerDayForm: !state.showingWorkerDayForm,
       };
 
     default:

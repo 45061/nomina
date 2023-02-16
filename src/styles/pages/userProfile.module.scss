@@ -50,6 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-bottom: 10px;
 
   h4 {
     margin: 0;
@@ -74,5 +75,11 @@
     font-size: 36px;
     direction: ltr;
     cursor: pointer;
+  }
+}
+
+.tableOfWorkers {
+  th {
+    text-align: center;
   }
 }
