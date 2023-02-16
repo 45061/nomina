@@ -4,124 +4,125 @@ import axios from "axios";
 // import fetchProfile from "../../pages/api/getData";
 import { useEffect, useState } from "react";
 import styles from "../../styles/pages/userProfile.module.scss";
-import { Tabs, Table, Divider } from "@mantine/core";
+import { Tabs, Table, Select } from "@mantine/core";
 import { BrandBooking } from "tabler-icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import PublicModal from "@/components/PublicModal";
-import { workerRegisterForm } from "@/store/actions/modalAction";
+import { workerDayForm, workerRegisterForm } from "@/store/actions/modalAction";
 import WorkerForm from "@/components/WorkerForm";
 import { useMediaQuery } from "@mantine/hooks";
+import { fetchWorker } from "@/store/actions/workerAction";
+import WorkerDay from "@/components/WorkerDay";
 
 export default function userProfile() {
   const { user } = useSelector((state) => state.authReducer);
-  const { showingWorkerRegisterForm } = useSelector(
+  const { showingWorkerRegisterForm, showingWorkerDayForm } = useSelector(
     (state) => state.modalReducer
   );
 
   const dispatch = useDispatch();
 
   const largeScreen = useMediaQuery("(min-width: 1024px)");
-  const [dataBookings, setDataBookings] = useState([]);
+  const [dataWorkers, setDataWorkes] = useState([]);
+  const [value, setValue] = useState(null);
   // const thisUser = JSON.parse(userInfo);
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const response = await axios.get("/api/user/profile");
-  //     setAuth(response.data);
-  //     // dispatch(showLoginForm());
-  //   };
-  //   getUser();
+  useEffect(() => {
+    // const getUser = async () => {
+    //   const response = await axios.get("/api/user/profile");
+    //   setAuth(response.data);
+    //   // dispatch(showLoginForm());
+    // };
+    // getUser();
 
-  //   const fetchBooking = async () => {
-  //     await fetch("/api/booking", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((resp) => resp.json())
-  //       .then((data) => {
-  //         setDataBookings(data);
-  //       });
-  //   };
-  //   fetchBooking();
-  // }, []);
+    const fetchWorker = async () => {
+      try {
+        const response = await axios.get("/api/workers/register");
+        setDataWorkes(response.data.workers);
+      } catch (error) {
+        console.log("hay un error en fetchWorker, no entra");
+      }
+    };
+    fetchWorker();
+
+    // const workers = dispatch(fetchWorker());
+
+    // const fetchBooking = async () => {
+    //   await fetch("/api/booking", {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //     .then((resp) => resp.json())
+    //     .then((data) => {
+    //       setDataBookings(data);
+    //     });
+    // };
+    // fetchBooking();
+  }, [showingWorkerRegisterForm]);
+  console.log("estos son los trabajadores", dataWorkers);
 
   // console.log("esto es auth", auth);
 
-  // const rows = dataBookings.bookings
+  const rows = dataWorkers
 
-  //   ?.map((element) => {
-  //     const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
-  //       element.reservedDays * element.userBookingId?.price
-  //     );
-  //     const dinerCopUser = new Intl.NumberFormat("es-MX").format(
-  //       element.reservedDays * element.roomId?.price
-  //     );
+    ?.map((element) => {
+      const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
+        element.salary
+      );
 
-  //     function reserveStatus() {
-  //       if (element.reservedStatus === 1) {
-  //         return "Activa";
-  //       }
-  //       if (element.reservedStatus === 2) {
-  //         return "Check In";
-  //       }
-  //       if (element.reservedStatus === 3) {
-  //         return "Check Out";
-  //       }
-  //       if (element.reservedStatus === 4) {
-  //         return "No Show";
-  //       }
-  //     }
-  //     const status = reserveStatus();
-  //     return (
-  //       dataBookings.bookings && (
-  //         <tr key={element._id}>
-  //           <td>{element.roomId.roomNumer}</td>
-  //           <td>{element.checkIn}</td>
-  //           <td>{element.checkOut}</td>
-  //           {element.userBookingId ? (
-  //             <td>
-  //               {element.userBookingId.firstName}{" "}
-  //               {element.userBookingId.lastName}
-  //             </td>
-  //           ) : (
-  //             <td>
-  //               {element.userId.firstName} {element.userId.lastName}
-  //             </td>
-  //           )}
+      function reserveStatus() {
+        if (element.reservedStatus === 1) {
+          return "Activa";
+        }
+        if (element.reservedStatus === 2) {
+          return "Check In";
+        }
+        if (element.reservedStatus === 3) {
+          return "Check Out";
+        }
+        if (element.reservedStatus === 4) {
+          return "No Show";
+        }
+      }
+      const status = reserveStatus();
+      return (
+        <tr key={element._id}>
+          <td>{element.firstName}</td>
+          <td>{element.lastName}</td>
+          <td>{element.email}</td>
 
-  //           {element.userId ? (
-  //             <td>{element.userId.numer}</td>
-  //           ) : (
-  //             <td>{element.userBookingId.numer}</td>
-  //           )}
-  //           {element.userBookingId ? (
-  //             <td>{element.userBookingId.email}</td>
-  //           ) : (
-  //             <td>{element.userId.email} </td>
-  //           )}
-  //           <td>{element.reservedDays}</td>
-  //           {element.userBookingId?.price ? (
-  //             <td>$ {dinerCopAdmin}</td>
-  //           ) : (
-  //             <td>$ {dinerCopUser}</td>
-  //           )}
-  //           <td>
-  //             {element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}
-  //           </td>
-  //           <td>
-  //             {element.userId.firstName} {element.userId.lastName}
-  //           </td>
-  //         </tr>
-  //       )
-  //     );
-  //   })
-  //   .reverse();
+          <td>{element.numer}</td>
+
+          <td>{element.dateOfAdmission}</td>
+
+          <td>$ {dinerCopAdmin}</td>
+
+          <td>{element.positionInTheCompany}</td>
+
+          <td>{element.healthProvider} </td>
+
+          <td>{element.pensionProvider}</td>
+
+          <td>{element.compensationBox}</td>
+
+          <td>{element.occupationalRiskInsurer}</td>
+
+          <td>{element.activeEmployee ? <p>Activo</p> : <p>Retirado</p>}</td>
+        </tr>
+      );
+    })
+    .reverse();
 
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(workerRegisterForm());
+  };
+
+  const handleClick2 = (event) => {
+    event.preventDefault();
+    dispatch(workerDayForm());
   };
 
   return (
@@ -157,28 +158,46 @@ export default function userProfile() {
                 <button onClick={handleClick}>Crear Trabajador</button>
               </div>
             </div>
-            <div>
+            <div className={styles.tableOfWorkers}>
               <Table striped highlightOnHover>
                 <thead>
                   <tr>
-                    <th>Habitación</th>
-                    <th>CheckIn</th>
-                    <th>CheckOut</th>
-                    <th>Huesped</th>
-                    <th>Número Contacto</th>
-                    <th>Correo</th>
-                    <th>Noches Reservadas</th>
-                    <th>Valor Reserva</th>
-                    <th>Estado de reserva</th>
-                    <th>Modificado Por</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Número</th>
+                    <th>Ingreso</th>
+                    <th>Salario</th>
+                    <th>Cargo</th>
+                    <th>EPS</th>
+                    <th>Pensiones</th>
+                    <th>Caja Compensación</th>
+                    <th>ARL</th>
+                    <th>Estado</th>
                   </tr>
                 </thead>
-                {/* <tbody>{rows}</tbody> */}
+                <tbody>{rows}</tbody>
               </Table>
             </div>
           </Tabs.Panel>
           <Tabs.Panel value="Calendar" pt="md">
-            Calendar tab content
+            <div></div>
+            <div className={styles.dataWorkers}>
+              <h4>Acá pudes asignar los días trabajados a tus empleados</h4>
+              <Select
+                label="Seleccionar Empleado"
+                placeholder="Empleado"
+                value={value}
+                onChange={setValue}
+                data={dataWorkers.map((item) => ({
+                  value: item._id,
+                  label: `${item.firstName} ${item.lastName}`,
+                }))}
+              />
+              <div className={styles.data__buttonNewWorker}>
+                <button onClick={handleClick2}>Crear Día Trabajado</button>
+              </div>
+            </div>
           </Tabs.Panel>
         </Tabs>
       </div>
@@ -188,6 +207,13 @@ export default function userProfile() {
         size={largeScreen ? "60%" : "100%"}
       >
         <WorkerForm />
+      </PublicModal>
+      <PublicModal
+        opened={showingWorkerDayForm}
+        onClose={() => dispatch(workerDayForm())}
+        size={largeScreen ? "60%" : "100%"}
+      >
+        <WorkerDay idWorker={value} />
       </PublicModal>
     </div>
   );

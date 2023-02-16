@@ -24,6 +24,7 @@ export default function InputValidator({
       <div>
         <label htmlFor="control" />
         <input
+          label="hola"
           name={name}
           id={id}
           value={value}

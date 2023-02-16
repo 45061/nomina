@@ -18,6 +18,10 @@ const workedDaySchema = new Schema(
       requiered: true,
       type: String,
     },
+    hoursWorked: {
+      requiered: true,
+      type: String,
+    },
     lunch: {
       requiered: true,
       type: String,

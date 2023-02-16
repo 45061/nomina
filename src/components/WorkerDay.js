@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Calendar } from "@mantine/dates";
 import dayjs from "dayjs";
+import "react-datepicker/dist/react-datepicker.css";
 // import { useNavigate } from "react-router-dom";
 import { showLoginNav, hiddeRegisterForm } from "../store/actions/modalAction";
 import { Button, Popover } from "@mantine/core";
@@ -11,26 +12,27 @@ import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { registerWorker } from "@/store/actions/workerAction";
+import { registerDayWorker } from "@/store/actions/workerAction";
+import DatePicker from "react-datepicker";
 
-export default function WorkerForm() {
-  const [value, setValue] = useState(false);
-  const [opened, setOpened] = useState(false);
-  const dataDate = dayjs(value);
+export default function WorkerForm({ idWorker }) {
+  const [dateEntryTime, setDateEntryTime] = useState();
+  const [datedepartureTime, setDatedepartureTime] = useState();
+  const dataDate = dayjs(dateEntryTime);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    numer: "",
-    dateOfAdmission: "",
-    salary: "",
-    positionInTheCompany: "",
-    healthProvider: "",
-    pensionProvider: "",
-    compensationBox: "",
-    occupationalRiskInsurer: "",
-    activeEmployee: true,
+    workerId: "",
+    workDay: "",
+    entryTime: "",
+    departureTime: "",
+    hoursWorked: "",
+    lunch: "",
+    extraHours: "",
+    mustHours: "",
+    nightHours: "",
+    holiday: "",
+    vacations: "",
+    inability: "",
   });
 
   const month = {
@@ -70,8 +72,13 @@ export default function WorkerForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    formData.dateOfAdmission = value;
-    dispatch(registerWorker(formData));
+    formData.workerId = idWorker;
+    formData.workDay = formData.entryTime;
+    // formData.entryTime = dateEntryTime;
+    // formData.departureTime = datedepartureTime;
+
+    dispatch(registerDayWorker(formData));
+    console.log(formData);
 
     // dispatch(hiddeRegisterForm());
   };
@@ -84,144 +91,118 @@ export default function WorkerForm() {
           <img src="/nominaApp.svg" alt="logoNomina" />
           {/* </div> */}
         </div>
-        <p className={styles.register__title}> Registro de Empleado</p>
+        <p className={styles.register__title}> Día del Empleado </p>
       </header>
+
       <div className={styles.register__content}>
-        <InputValidator
-          name="firstName"
+        {/* <DatePicker
+          wrapperClassName="datePicker"
+          showTimeSelect
+          timeIntervals={1}
+          placeholderText="Hora de ingreso"
+          dateFormat="MMMM d, yyyy h:mm aa"
+          selected={dateEntryTime}
+          onChange={(date) => setDateEntryTime(date)}
+          className={styles.datePiker}
+        />
+        <DatePicker
+          wrapperClassName="datePicker"
+          showTimeSelect
+          timeIntervals={1}
+          placeholderText="Hora de Salida"
+          dateFormat="MMMM d, yyyy h:mm aa"
+          selected={datedepartureTime}
+          onChange={(date) => setDatedepartureTime(date)}
+          className={styles.datePiker}
+        /> */}
+        <label>
+          Hora de Entrada:
+          <InputValidator
+            name="entryTime"
+            value={formData.name}
+            type="datetime-local"
+            classname={styles.register__input}
+            placeholder="Horas Extras"
+            onChange={onChange}
+            errorMessage="Nombre no debe estar vacio"
+            required
+          />
+        </label>
+        <label>
+          Hora de Salida:
+          <InputValidator
+            name="departureTime"
+            value={formData.name}
+            type="datetime-local"
+            classname={styles.register__input}
+            placeholder="Horas Extras"
+            onChange={onChange}
+            errorMessage="Nombre no debe estar vacio"
+            required
+          />
+        </label>
+        {/* <InputValidator
+          name="extraHours"
           value={formData.name}
           type="text"
           classname={styles.register__input}
-          placeholder="Nombres"
+          placeholder="Horas Extras"
           onChange={onChange}
           errorMessage="Nombre no debe estar vacio"
           required
         />
         <InputValidator
-          name="lastName"
+          name="mustHours"
           value={formData.name}
           type="text"
           classname={styles.register__input}
-          placeholder="Apellidos"
+          placeholder="Horas que Deberia"
           onChange={onChange}
           errorMessage="Apellido no debe estar vacio"
           required
         />
         <div className="register__input--span">
           <InputValidator
-            name="email"
+            name="nightHours"
             value={formData.name}
             type="email"
             classname={styles.register__input}
-            placeholder="Email"
+            placeholder="Horas Nocturnas"
             onChange={onChange}
             errorMessage="Debe ser email valido"
             required
           />
         </div>
         <InputValidator
-          name="numer"
+          name="holiday"
           value={formData.name}
           type="text"
           classname={styles.register__input}
-          placeholder="Numero"
+          placeholder="Horas Festivas"
           onChange={onChange}
           errorMessage="Numero no debe estar vacio"
           required
-        />
+        /> */}
         <InputValidator
-          name="salary"
+          name="vacations"
           value={formData.name}
           type="text"
           classname={styles.register__input}
-          placeholder="Salario"
+          placeholder="Vacaciones"
           onChange={onChange}
           errorMessage="No debe estar vacio"
           required
         />
         <InputValidator
-          name="positionInTheCompany"
+          name="inability"
           value={formData.name}
           type="text"
           classname={styles.register__input}
-          placeholder="Cargo"
+          placeholder="Incapacitado"
           onChange={onChange}
           errorMessage="No debe estar vacio"
           required
         />
-        <InputValidator
-          name="healthProvider"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="EPS"
-          onChange={onChange}
-          errorMessage="No debe estar vacio"
-          required
-        />
-        <InputValidator
-          name="pensionProvider"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Fondo de Pensiones"
-          onChange={onChange}
-          errorMessage="No debe estar vacio"
-          required
-        />
-        <InputValidator
-          name="compensationBox"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Caja de Compensación"
-          onChange={onChange}
-          errorMessage="No debe estar vacio"
-          required
-        />
-        <InputValidator
-          name="occupationalRiskInsurer"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="ARL"
-          onChange={onChange}
-          errorMessage="No debe estar vacio"
-          required
-        />
-
-        <Popover
-          style={{ marginTop: 5, borderRadius: 30 }}
-          sx={(theme) => ({
-            backgroundColor: "purple",
-            "&:hover": {
-              backgroundColor: theme.colors.violet[6],
-            },
-          })}
-          opened={opened}
-          onClose={() => setOpened(false)}
-          width={310}
-          position="top"
-          withArrow
-        >
-          <Popover.Target>
-            <Button variant="violet" onClick={() => setOpened(true)}>
-              Fecha de Ingreso
-            </Button>
-          </Popover.Target>
-          <Popover.Dropdown>
-            <Calendar value={value} onChange={setValue} locale="es-mx" />
-          </Popover.Dropdown>
-        </Popover>
-        <div className={styles.date__worker}>
-          {!value ? (
-            <h1>Seleccionar Fecha</h1>
-          ) : (
-            <h1>
-              {month[dataDate.$M]} {dataDate.$D} {dataDate.$y}
-            </h1>
-          )}
-        </div>
       </div>
       <div className={styles.register__worker}>
         <button
@@ -229,7 +210,7 @@ export default function WorkerForm() {
           type="submit"
           onClick={handleSubmit}
         >
-          Registrar Trabajador
+          Registrar Día
         </button>
       </div>
     </form>
