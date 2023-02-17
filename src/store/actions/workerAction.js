@@ -1,5 +1,5 @@
 import axios from "axios";
-import { workerRegisterForm } from "./modalAction";
+import { workerDayForm, workerRegisterForm } from "./modalAction";
 
 export const registerWorker = (body) => async (dispatch) => {
   try {
@@ -23,6 +23,10 @@ export const registerDayWorker = (body) => async (dispatch) => {
   try {
     // const cookies = new Cookies();
     const response = await axios.post("/api/daysWorkers/register", body);
+
+    if (response.status === 201) {
+      dispatch(workerDayForm());
+    }
 
     // const { token, message, ...user } = response;
     // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });

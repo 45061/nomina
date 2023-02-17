@@ -1,6 +1,7 @@
 import { dbConnect } from "../../../utils/mongoose";
 
 import Worked from "../../../models/workedDay.model";
+import Worker from "../../../models/worker.model";
 
 import { verify } from "jsonwebtoken";
 import dayjs from "dayjs";
@@ -25,7 +26,9 @@ export default async function handler(req, res) {
         if (!typeUser) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
-        const { entryTime, departureTime } = body;
+        const { entryTime, departureTime, workerId } = body;
+
+        const worker = await Worker.findById(workerId);
 
         const workNoLunch = [];
 
@@ -39,8 +42,6 @@ export default async function handler(req, res) {
         } else {
           workNoLunch.push(workDone);
         }
-
-        // console.log("estas son las horas", dayjs(workNoLunch));
 
         body.hoursWorked = `${dayjs(workNoLunch).$H}:${dayjs(workNoLunch).$m}`;
 
@@ -58,24 +59,33 @@ export default async function handler(req, res) {
         } else {
           body.extraHours = 0;
         }
-        // console.log("esto es workNoLunch", dayjs(workNoLunch));
+        if (dayjs(workNoLunch).$H < 8) {
+          const mustHoursCounter = moment(dayjs(workNoLunch).$d)
+            .subtract(8, "h")
+            .subtract(30, "m")
+            .format();
+          if (dayjs(mustHoursCounter).$m === 0) {
+            body.mustHours = `${24 - dayjs(mustHoursCounter).$H}:0`;
+          } else {
+            body.mustHours = `${23 - dayjs(mustHoursCounter).$H}:${
+              60 - dayjs(mustHoursCounter).$m
+            }`;
+          }
+        } else {
+          body.mustHours = 0;
+        }
 
-        // const hoursCalculation = moment(workNoLunch)
-        //   .subtract(dayjs(entryTime).$H, "h")
-        //   .subtract(dayjs(entryTime).$m, "m")
-        //   .format();
+        const dayWorker = await Worked.create({
+          ...body,
+          userId: worker,
+        });
 
-        // const minutsWorked = dayjs(hoursCalculation).$m;
+        worker.workedDays.push(dayWorker);
 
-        console.log("esto es body", body);
-        // console.log("estas son las horas trabajadas", hoursWorked);
-        // console.log("estas son las minutos trabajadas", minutsWorked);
-        // const worker = await Worker.create({
-        //   ...req.body,
-        // });
+        await worker.save({ validateBeforeSave: false });
 
         return res.status(201).json({
-          message: "Worker Created",
+          message: "Worked Day Created",
         });
       } catch (error) {
         return res.status(400).json({ error: error.message });

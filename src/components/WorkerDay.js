@@ -95,26 +95,6 @@ export default function WorkerForm({ idWorker }) {
       </header>
 
       <div className={styles.register__content}>
-        {/* <DatePicker
-          wrapperClassName="datePicker"
-          showTimeSelect
-          timeIntervals={1}
-          placeholderText="Hora de ingreso"
-          dateFormat="MMMM d, yyyy h:mm aa"
-          selected={dateEntryTime}
-          onChange={(date) => setDateEntryTime(date)}
-          className={styles.datePiker}
-        />
-        <DatePicker
-          wrapperClassName="datePicker"
-          showTimeSelect
-          timeIntervals={1}
-          placeholderText="Hora de Salida"
-          dateFormat="MMMM d, yyyy h:mm aa"
-          selected={datedepartureTime}
-          onChange={(date) => setDatedepartureTime(date)}
-          className={styles.datePiker}
-        /> */}
         <label>
           Hora de Entrada:
           <InputValidator
@@ -141,26 +121,6 @@ export default function WorkerForm({ idWorker }) {
             required
           />
         </label>
-        {/* <InputValidator
-          name="extraHours"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Horas Extras"
-          onChange={onChange}
-          errorMessage="Nombre no debe estar vacio"
-          required
-        />
-        <InputValidator
-          name="mustHours"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Horas que Deberia"
-          onChange={onChange}
-          errorMessage="Apellido no debe estar vacio"
-          required
-        />
         <div className="register__input--span">
           <InputValidator
             name="nightHours"
@@ -173,16 +133,16 @@ export default function WorkerForm({ idWorker }) {
             required
           />
         </div>
-        <InputValidator
+        <select
           name="holiday"
           value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Horas Festivas"
+          className={styles.register__input}
           onChange={onChange}
-          errorMessage="Numero no debe estar vacio"
-          required
-        /> */}
+        >
+          <option value="">¿El día es festivo?</option>
+          <option value={true}>Si</option>
+          <option value={false}>No</option>
+        </select>
         <InputValidator
           name="vacations"
           value={formData.name}
