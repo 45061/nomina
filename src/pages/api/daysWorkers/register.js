@@ -6,6 +6,7 @@ import Worker from "../../../models/worker.model";
 import { verify } from "jsonwebtoken";
 import dayjs from "dayjs";
 import moment from "moment";
+import login from "../user/login";
 
 dbConnect();
 
@@ -104,11 +105,13 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        const workers = await Worked.find();
+        const daysWorker = await Worked.find();
+
+        console.log("esto es value", body);
 
         return res.status(201).json({
           message: "Worker Found",
-          workers,
+          daysWorker,
         });
       } catch (error) {
         return res.status(400).json({ error: error.message });

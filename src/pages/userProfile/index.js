@@ -2,6 +2,7 @@
 import axios from "axios";
 // import profileHandler from "../api/user/profile";
 // import fetchProfile from "../../pages/api/getData";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import styles from "../../styles/pages/userProfile.module.scss";
 import { Tabs, Table, Select } from "@mantine/core";
@@ -24,8 +25,19 @@ export default function userProfile() {
 
   const largeScreen = useMediaQuery("(min-width: 1024px)");
   const [dataWorkers, setDataWorkes] = useState([]);
+  const [dataDaysWorkes, setDataDaysWorkes] = useState([]);
   const [value, setValue] = useState(null);
   // const thisUser = JSON.parse(userInfo);
+
+  const week = {
+    0: "Dom",
+    1: "Lun",
+    2: "Mar",
+    3: "Mie",
+    4: "Jue",
+    5: "Vie",
+    6: "Sab",
+  };
 
   useEffect(() => {
     // const getUser = async () => {
@@ -45,6 +57,22 @@ export default function userProfile() {
     };
     fetchWorker();
 
+    const dataDaysWorker = async () => {
+      try {
+        const workId = { id: value };
+        console.log("esto es value", value);
+        const response = await axios.post(
+          "/api/daysWorkers/daysWorker",
+          workId
+        );
+
+        setDataDaysWorkes(response.data.worker.workedDays);
+      } catch (error) {
+        console.log("hay un error en dataDayWorker, no entra");
+      }
+    };
+    dataDaysWorker();
+
     // const workers = dispatch(fetchWorker());
 
     // const fetchBooking = async () => {
@@ -60,7 +88,7 @@ export default function userProfile() {
     //     });
     // };
     // fetchBooking();
-  }, [showingWorkerRegisterForm]);
+  }, [showingWorkerRegisterForm, value, showingWorkerDayForm]);
   console.log("estos son los trabajadores", dataWorkers);
 
   // console.log("esto es auth", auth);
@@ -115,6 +143,39 @@ export default function userProfile() {
     })
     .reverse();
 
+  const rows2 = dataDaysWorkes
+
+    ?.map((element) => {
+      console.log(dayjs(element.entryTime).$W);
+      return (
+        <tr key={element._id}>
+          <td>
+            {dayjs(element.workDay).$d.toString().substr(3, 13)}{" "}
+            {week[dayjs(element.workDay).$W]}
+          </td>
+          <td>{dayjs(element.entryTime).$d.toString().substr(16, 9)}</td>
+          <td>{dayjs(element.departureTime).$d.toString().substr(16, 9)}</td>
+
+          <td>{element.hoursWorked}</td>
+
+          <td>{element.lunch ? <p>Si</p> : <p>No</p>}</td>
+
+          <td>{element.extraHours}</td>
+
+          <td>{element.mustHours} </td>
+
+          <td>{element.nightHours}</td>
+
+          <td>{element.holiday ? <p>Si</p> : <p>No</p>}</td>
+
+          <td>{element.vacations}</td>
+
+          <td>{element.inability}</td>
+        </tr>
+      );
+    })
+    .reverse();
+
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(workerRegisterForm());
@@ -124,6 +185,8 @@ export default function userProfile() {
     event.preventDefault();
     dispatch(workerDayForm());
   };
+
+  console.log("dias trabajados del trabajador", dataDaysWorkes);
 
   return (
     <div className={styles.container}>
@@ -197,6 +260,26 @@ export default function userProfile() {
               <div className={styles.data__buttonNewWorker}>
                 <button onClick={handleClick2}>Crear Día Trabajado</button>
               </div>
+            </div>
+            <div className={styles.tableOfWorkers}>
+              <Table striped highlightOnHover>
+                <thead>
+                  <tr>
+                    <th>Día Trabajado</th>
+                    <th>Hora Entrada</th>
+                    <th>Hora Salida</th>
+                    <th>Horas Trabajadas</th>
+                    <th>Almuerzo Completo</th>
+                    <th>Horas Extras</th>
+                    <th>Horas que Debe</th>
+                    <th>Horas Nocturnas</th>
+                    <th>Día Festivo</th>
+                    <th>En Vacaciones</th>
+                    <th>Incapacitado</th>
+                  </tr>
+                </thead>
+                <tbody>{rows2}</tbody>
+              </Table>
             </div>
           </Tabs.Panel>
         </Tabs>

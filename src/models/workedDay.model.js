@@ -24,7 +24,7 @@ const workedDaySchema = new Schema(
     },
     lunch: {
       requiered: true,
-      type: String,
+      type: Boolean,
     },
     extraHours: {
       required: true,
@@ -40,7 +40,7 @@ const workedDaySchema = new Schema(
     },
     holiday: {
       required: true,
-      type: String,
+      type: Boolean,
     },
     vacations: {
       required: true,
