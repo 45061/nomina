@@ -107,8 +107,6 @@ export default async function handler(req, res) {
 
         const daysWorker = await Worked.find();
 
-        console.log("esto es value", body);
-
         return res.status(201).json({
           message: "Worker Found",
           daysWorker,

@@ -9,17 +9,20 @@ import { Tabs, Table, Select } from "@mantine/core";
 import { BrandBooking } from "tabler-icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import PublicModal from "@/components/PublicModal";
-import { workerDayForm, workerRegisterForm } from "@/store/actions/modalAction";
+import {
+  workerDayForm,
+  workerRegisterForm,
+  editWorkerForm,
+} from "@/store/actions/modalAction";
 import WorkerForm from "@/components/WorkerForm";
 import { useMediaQuery } from "@mantine/hooks";
-import { fetchWorker } from "@/store/actions/workerAction";
 import WorkerDay from "@/components/WorkerDay";
+import EditWorkerForm from "@/components/EditWorkerForm";
 
 export default function userProfile() {
   const { user } = useSelector((state) => state.authReducer);
-  const { showingWorkerRegisterForm, showingWorkerDayForm } = useSelector(
-    (state) => state.modalReducer
-  );
+  const { showingWorkerRegisterForm, showingWorkerDayForm, showingEditWorker } =
+    useSelector((state) => state.modalReducer);
 
   const dispatch = useDispatch();
 
@@ -27,6 +30,7 @@ export default function userProfile() {
   const [dataWorkers, setDataWorkes] = useState([]);
   const [dataDaysWorkes, setDataDaysWorkes] = useState([]);
   const [value, setValue] = useState(null);
+  const [dataWorker, setDataWorker] = useState({});
   // const thisUser = JSON.parse(userInfo);
 
   const week = {
@@ -60,7 +64,10 @@ export default function userProfile() {
     const dataDaysWorker = async () => {
       try {
         const workId = { id: value };
-        console.log("esto es value", value);
+        if (!value) {
+          return;
+        }
+        // console.log("esto es value", value);
         const response = await axios.post(
           "/api/daysWorkers/daysWorker",
           workId
@@ -88,10 +95,30 @@ export default function userProfile() {
     //     });
     // };
     // fetchBooking();
-  }, [showingWorkerRegisterForm, value, showingWorkerDayForm]);
-  console.log("estos son los trabajadores", dataWorkers);
+  }, [
+    showingWorkerRegisterForm,
+    value,
+    showingWorkerDayForm,
+    showingEditWorker,
+  ]);
+  // console.log("estos son los trabajadores", dataWorkers);
 
   // console.log("esto es auth", auth);
+  const handleClick = (event) => {
+    event.preventDefault();
+    dispatch(workerRegisterForm());
+  };
+
+  const handleClick2 = (event) => {
+    event.preventDefault();
+    dispatch(workerDayForm());
+  };
+
+  const handleClick3 = (element, e) => {
+    e.preventDefault();
+    dispatch(editWorkerForm());
+    setDataWorker(element);
+  };
 
   const rows = dataWorkers
 
@@ -115,15 +142,18 @@ export default function userProfile() {
         }
       }
       const status = reserveStatus();
+      const dateOfAdmission = `${dayjs(element.dateOfAdmission)
+        .$d.toString()
+        .substr(0, 15)}`;
       return (
-        <tr key={element._id}>
+        <tr key={element._id} onClick={(e) => handleClick3(element, e)}>
           <td>{element.firstName}</td>
           <td>{element.lastName}</td>
           <td>{element.email}</td>
 
           <td>{element.numer}</td>
 
-          <td>{element.dateOfAdmission}</td>
+          <td>{dateOfAdmission}</td>
 
           <td>$ {dinerCopAdmin}</td>
 
@@ -146,15 +176,19 @@ export default function userProfile() {
   const rows2 = dataDaysWorkes
 
     ?.map((element) => {
-      console.log(dayjs(element.entryTime).$W);
+      const workDay = `${dayjs(element.workDay).$d.toString().substr(3, 13)} 
+      ${week[dayjs(element.workDay).$W]}`;
+      const entryTime = `${dayjs(element.entryTime)
+        .$d.toString()
+        .substr(16, 9)}`;
+      const departureTime = `${dayjs(element.departureTime)
+        .$d.toString()
+        .substr(16, 9)}`;
       return (
         <tr key={element._id}>
-          <td>
-            {dayjs(element.workDay).$d.toString().substr(3, 13)}{" "}
-            {week[dayjs(element.workDay).$W]}
-          </td>
-          <td>{dayjs(element.entryTime).$d.toString().substr(16, 9)}</td>
-          <td>{dayjs(element.departureTime).$d.toString().substr(16, 9)}</td>
+          <td>{workDay}</td>
+          <td>{entryTime}</td>
+          <td>{departureTime}</td>
 
           <td>{element.hoursWorked}</td>
 
@@ -175,18 +209,6 @@ export default function userProfile() {
       );
     })
     .reverse();
-
-  const handleClick = (event) => {
-    event.preventDefault();
-    dispatch(workerRegisterForm());
-  };
-
-  const handleClick2 = (event) => {
-    event.preventDefault();
-    dispatch(workerDayForm());
-  };
-
-  console.log("dias trabajados del trabajador", dataDaysWorkes);
 
   return (
     <div className={styles.container}>
@@ -290,6 +312,13 @@ export default function userProfile() {
         size={largeScreen ? "60%" : "100%"}
       >
         <WorkerForm />
+      </PublicModal>
+      <PublicModal
+        opened={showingEditWorker}
+        onClose={() => dispatch(editWorkerForm())}
+        size={largeScreen ? "60%" : "100%"}
+      >
+        <EditWorkerForm data={dataWorker} />
       </PublicModal>
       <PublicModal
         opened={showingWorkerDayForm}

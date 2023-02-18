@@ -78,7 +78,7 @@ export default function WorkerForm({ idWorker }) {
     // formData.departureTime = datedepartureTime;
 
     dispatch(registerDayWorker(formData));
-    console.log(formData);
+    // console.log(formData);
 
     // dispatch(hiddeRegisterForm());
   };
