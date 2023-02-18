@@ -16,7 +16,6 @@ function App({ Component, pageProps }) {
     dispatch(getUserData());
   }, [isAuth]);
 
-  console.log("este es el user de useSelector", isAuth);
   return (
     <>
       <Provider store={store}>

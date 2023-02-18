@@ -10,9 +10,7 @@ import { AUTH_SUCCESS, AUTH_ERROR, LOGOUT, USER_SUCCESS } from "../types";
 export const register = (body) => async (dispatch) => {
   try {
     // const cookies = new Cookies();
-    console.log("hola en register", body);
     const response = await axios.post("/api/user/signup", body);
-    console.log("esto es response en register", response);
 
     const { token, message, ...user } = response;
     // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
@@ -39,7 +37,6 @@ export const logout = () => async (dispatch) => {
 export const login = (body) => async (dispatch) => {
   try {
     // const cookies = new Cookies();
-    console.log("esto es body", body);
     const response = await axios.post("/api/user/login", body);
     // const data = await response.json();
 
@@ -65,7 +62,6 @@ export const getUserData = (token) => async (dispatch) => {
   try {
     const response = await axios.get("/api/user/profile");
     if (response.status === 100) {
-      console.log("realizar el login");
     }
     dispatch({ type: USER_SUCCESS, payload: response.data.user });
   } catch (error) {
