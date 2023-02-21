@@ -37,6 +37,7 @@ export default function userProfile() {
   const [dataDaysWorkes, setDataDaysWorkes] = useState([]);
   const [value, setValue] = useState(null);
   const [dataWorker, setDataWorker] = useState({});
+  const [dataWorkerDay, setDataWorkerDay] = useState({});
   // const thisUser = JSON.parse(userInfo);
 
   const week = {
@@ -106,6 +107,7 @@ export default function userProfile() {
     value,
     showingWorkerDayForm,
     showingEditWorker,
+    showingEditWorkerDay,
   ]);
   // console.log("estos son los trabajadores", dataWorkers);
 
@@ -129,7 +131,7 @@ export default function userProfile() {
   const handleClick4 = (element, e) => {
     e.preventDefault();
     dispatch(editWorkerDay());
-    // setDataWorker(element);
+    setDataWorkerDay(element);
   };
 
   const rows = dataWorkers
@@ -344,7 +346,7 @@ export default function userProfile() {
         onClose={() => dispatch(editWorkerDay())}
         size={largeScreen ? "60%" : "100%"}
       >
-        <EditWorkerDay />
+        <EditWorkerDay data={dataWorkerDay} />
       </PublicModal>
     </div>
   );

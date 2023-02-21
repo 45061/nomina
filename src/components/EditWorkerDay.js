@@ -12,27 +12,28 @@ import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { registerDayWorker } from "@/store/actions/workerAction";
+import { putDayWorker, registerDayWorker } from "@/store/actions/workerAction";
 import DatePicker from "react-datepicker";
 
-export default function EditWorkerForm() {
+export default function EditWorkerForm({ data }) {
   const [dateEntryTime, setDateEntryTime] = useState();
   const [datedepartureTime, setDatedepartureTime] = useState();
   const dataDate = dayjs(dateEntryTime);
 
   const [formData, setFormData] = useState({
-    workerId: "",
-    workDay: "",
-    entryTime: "",
-    departureTime: "",
-    hoursWorked: "",
-    lunch: "",
-    extraHours: "",
-    mustHours: "",
-    nightHours: "",
-    holiday: "",
-    vacations: "",
-    inability: "",
+    id: data._id,
+    workerId: data.workerId,
+    workDay: data.workDay,
+    entryTime: data.entryTime,
+    departureTime: data.departureTime,
+    hoursWorked: data.hoursWorked,
+    lunch: data.lunch,
+    extraHours: data.extraHours,
+    mustHours: data.mustHours,
+    nightHours: data.nightHours,
+    holiday: data.holiday,
+    vacations: data.vacations,
+    inability: data.inability,
   });
 
   const month = {
@@ -74,14 +75,14 @@ export default function EditWorkerForm() {
     event.preventDefault();
     // formData.workerId = idWorker;
     formData.workDay = formData.entryTime;
-    // formData.entryTime = dateEntryTime;
     // formData.departureTime = datedepartureTime;
 
-    dispatch(registerDayWorker(formData));
+    dispatch(putDayWorker(formData));
     // console.log(formData);
 
     // dispatch(hiddeRegisterForm());
   };
+  console.log("esto es la data de dayWord", data);
 
   return (
     <form className={styles.register}>
@@ -121,48 +122,65 @@ export default function EditWorkerForm() {
             required
           />
         </label>
+
         <div className="register__input--span">
-          <InputValidator
-            name="nightHours"
+          <label>
+            {" "}
+            Horas Nocturnas
+            <InputValidator
+              name="nightHours"
+              value={formData.name}
+              type="email"
+              classname={styles.register__input}
+              placeholder={data.nightHours}
+              onChange={onChange}
+              errorMessage="Debe ser email valido"
+              required
+            />
+          </label>
+        </div>
+        <label>
+          {" "}
+          Día Festivo
+          <select
+            name="holiday"
             value={formData.name}
-            type="email"
-            classname={styles.register__input}
-            placeholder="Horas Nocturnas"
+            className={styles.register__input}
             onChange={onChange}
-            errorMessage="Debe ser email valido"
+          >
+            <option value="">¿El día es festivo?</option>
+            <option value={true}>Si</option>
+            <option value={false}>No</option>
+          </select>
+        </label>
+        <label>
+          {" "}
+          Esta en Vacaciones
+          <InputValidator
+            name="vacations"
+            value={formData.name}
+            type="text"
+            classname={styles.register__input}
+            placeholder={data.vacations}
+            onChange={onChange}
+            errorMessage="No debe estar vacio"
             required
           />
-        </div>
-        <select
-          name="holiday"
-          value={formData.name}
-          className={styles.register__input}
-          onChange={onChange}
-        >
-          <option value="">¿El día es festivo?</option>
-          <option value={true}>Si</option>
-          <option value={false}>No</option>
-        </select>
-        <InputValidator
-          name="vacations"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Vacaciones"
-          onChange={onChange}
-          errorMessage="No debe estar vacio"
-          required
-        />
-        <InputValidator
-          name="inability"
-          value={formData.name}
-          type="text"
-          classname={styles.register__input}
-          placeholder="Incapacitado"
-          onChange={onChange}
-          errorMessage="No debe estar vacio"
-          required
-        />
+        </label>
+        <label>
+          {" "}
+          Esta Incapacitado
+          <InputValidator
+            name="inability"
+            value={formData.name}
+            type="text"
+            classname={styles.register__input}
+            placeholder={data.inability}
+            onChange={onChange}
+            errorMessage="No debe estar vacio"
+            required
+          />
+        </label>
       </div>
       <div className={styles.register__worker}>
         <button
@@ -170,7 +188,7 @@ export default function EditWorkerForm() {
           type="submit"
           onClick={handleSubmit}
         >
-          Registrar Día
+          Actualizar el Día
         </button>
       </div>
     </form>

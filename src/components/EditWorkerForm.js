@@ -11,7 +11,7 @@ import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { putWorker, registerWorker } from "@/store/actions/workerAction";
+import { putWorker } from "@/store/actions/workerAction";
 
 export default function EditWorkerForm({ data }) {
   const [value, setValue] = useState(false);
