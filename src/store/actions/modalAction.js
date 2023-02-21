@@ -6,6 +6,7 @@ import {
   WORKER_REGISTER_FORM,
   WORKER_DAY_FORM,
   EDIT_WORKER_FORM,
+  EDIT_WORKER_DAY,
 } from "../types";
 
 const actionBody = (type, payload = null) => ({ type, payload });
@@ -17,3 +18,4 @@ export const hiddeRegisterForm = () => actionBody(HIDDE_REGISTER_FORM);
 export const workerRegisterForm = () => actionBody(WORKER_REGISTER_FORM);
 export const workerDayForm = () => actionBody(WORKER_DAY_FORM);
 export const editWorkerForm = () => actionBody(EDIT_WORKER_FORM);
+export const editWorkerDay = () => actionBody(EDIT_WORKER_DAY);

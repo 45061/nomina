@@ -13,16 +13,22 @@ import {
   workerDayForm,
   workerRegisterForm,
   editWorkerForm,
+  editWorkerDay,
 } from "@/store/actions/modalAction";
 import WorkerForm from "@/components/WorkerForm";
 import { useMediaQuery } from "@mantine/hooks";
 import WorkerDay from "@/components/WorkerDay";
 import EditWorkerForm from "@/components/EditWorkerForm";
+import EditWorkerDay from "@/components/EditWorkerDay";
 
 export default function userProfile() {
   const { user } = useSelector((state) => state.authReducer);
-  const { showingWorkerRegisterForm, showingWorkerDayForm, showingEditWorker } =
-    useSelector((state) => state.modalReducer);
+  const {
+    showingWorkerRegisterForm,
+    showingWorkerDayForm,
+    showingEditWorker,
+    showingEditWorkerDay,
+  } = useSelector((state) => state.modalReducer);
 
   const dispatch = useDispatch();
 
@@ -120,6 +126,12 @@ export default function userProfile() {
     setDataWorker(element);
   };
 
+  const handleClick4 = (element, e) => {
+    e.preventDefault();
+    dispatch(editWorkerDay());
+    // setDataWorker(element);
+  };
+
   const rows = dataWorkers
 
     ?.map((element) => {
@@ -185,7 +197,7 @@ export default function userProfile() {
         .$d.toString()
         .substr(16, 9)}`;
       return (
-        <tr key={element._id}>
+        <tr key={element._id} onClick={(e) => handleClick4(element, e)}>
           <td>{workDay}</td>
           <td>{entryTime}</td>
           <td>{departureTime}</td>
@@ -326,6 +338,13 @@ export default function userProfile() {
         size={largeScreen ? "60%" : "100%"}
       >
         <WorkerDay idWorker={value} />
+      </PublicModal>
+      <PublicModal
+        opened={showingEditWorkerDay}
+        onClose={() => dispatch(editWorkerDay())}
+        size={largeScreen ? "60%" : "100%"}
+      >
+        <EditWorkerDay />
       </PublicModal>
     </div>
   );
