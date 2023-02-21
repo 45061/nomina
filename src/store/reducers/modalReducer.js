@@ -6,6 +6,7 @@ import {
   WORKER_REGISTER_FORM,
   WORKER_DAY_FORM,
   EDIT_WORKER_FORM,
+  EDIT_WORKER_DAY,
 } from "../types";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   showingWorkerRegisterForm: false,
   showingWorkerDayForm: false,
   showingEditWorker: false,
+  showingEditWorkerDay: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -54,6 +56,11 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showingEditWorker: !state.showingEditWorker,
+      };
+    case EDIT_WORKER_DAY:
+      return {
+        ...state,
+        showingEditWorkerDay: !state.showingEditWorkerDay,
       };
 
     default:
