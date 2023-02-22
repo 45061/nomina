@@ -12,7 +12,11 @@ import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { putDayWorker, registerDayWorker } from "@/store/actions/workerAction";
+import {
+  deleteDayWorker,
+  putDayWorker,
+  registerDayWorker,
+} from "@/store/actions/workerAction";
 import DatePicker from "react-datepicker";
 
 export default function EditWorkerForm({ data }) {
@@ -82,7 +86,18 @@ export default function EditWorkerForm({ data }) {
 
     // dispatch(hiddeRegisterForm());
   };
-  console.log("esto es la data de dayWord", data);
+
+  const handleSubmit2 = async (event) => {
+    event.preventDefault();
+    // formData.workerId = idWorker;
+    // formData.workDay = formData.entryTime;
+    // formData.departureTime = datedepartureTime;
+
+    dispatch(deleteDayWorker(data));
+    // console.log(formData);
+
+    // dispatch(hiddeRegisterForm());
+  };
 
   return (
     <form className={styles.register}>
@@ -189,6 +204,13 @@ export default function EditWorkerForm({ data }) {
           onClick={handleSubmit}
         >
           Actualizar el Día
+        </button>
+        <button
+          className={styles.btn_action}
+          type="submit"
+          onClick={handleSubmit2}
+        >
+          Eliminar Día
         </button>
       </div>
     </form>

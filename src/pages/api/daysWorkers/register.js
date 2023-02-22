@@ -210,6 +210,42 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: error.message });
       }
 
+    case "DELETE":
+      try {
+        const user = verify(
+          myTokenName,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
+
+        const { typeUser } = user;
+
+        if (!typeUser) {
+          return res.status(400).json({ msg: "this user is not authorized" });
+        }
+
+        const { workerId, _id } = body;
+
+        await Worked.findByIdAndDelete(_id);
+
+        const deleteWorked = _id.toString();
+
+        const worker = await Worker.findById(workerId);
+
+        worker.workedDays = worker.workedDays.filter(
+          (item) => item._id.toString() !== deleteWorked
+        );
+
+        await worker.save({ validateBeforeSave: false });
+
+        // const daysWorker = await Worked.find();
+
+        return res.status(201).json({
+          message: "Worked Delete",
+        });
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+
     default:
       return res.status(400).json({ msg: "this method is not supported" });
   }
