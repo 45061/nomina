@@ -3,6 +3,7 @@
 import { serialize } from "cookie";
 import Router from "next/router";
 import axios from "axios";
+
 // import { toast } from "react-toastify";
 import { hiddeLoginNav, hiddeRegisterForm } from "./modalAction";
 import { AUTH_SUCCESS, AUTH_ERROR, LOGOUT, USER_SUCCESS } from "../types";
@@ -38,6 +39,10 @@ export const login = (body) => async (dispatch) => {
   try {
     // const cookies = new Cookies();
     const response = await axios.post("/api/user/login", body);
+
+    if (response.status === 201) {
+      Router.push("userProfile");
+    }
     // const data = await response.json();
 
     if (response.status === 403) {
