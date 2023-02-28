@@ -10,7 +10,9 @@ export default function Navbar() {
         <h2>Nomina App</h2>
       </Link>
       <div className={styles.container__nav}>
-        <h3>Gestión</h3>
+        <Link href="/management" prefetch={false}>
+          <h3>Gestión</h3>
+        </Link>
         <h3>Informe</h3>
         <MenuNavbar />
       </div>
