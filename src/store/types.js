@@ -13,3 +13,5 @@ export const LOGOUT = "LOGOUT";
 export const USER_SUCCESS = "USER_SUCCESS";
 
 export const REGISTER_WORKER = "REGISTER_WORKER";
+export const DATA_WORKER = "DATA_WORKER";
+export const DAYS_OF_WORKER = "DAYS_OF_WORKER";

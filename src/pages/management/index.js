@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -8,19 +8,24 @@ import dayjs from "dayjs";
 import styles from "../../styles/pages/management.module.scss";
 import { Tabs, Table, Select } from "@mantine/core";
 import InputValidator from "@/components/ImputValidator";
+import { filterDayWorker } from "@/store/actions/workerAction";
 
 export default function management() {
   const { user } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch();
 
   const [dataWorkers, setDataWorkes] = useState([]);
   const [value, setValue] = useState(null);
 
   const handleClick = (event) => {
     event.preventDefault();
-    // dispatch(workerDayForm());
+    formData.workerId = value;
+    console.log("estyos son los dias", formData);
+    dispatch(filterDayWorker(formData));
   };
 
   const [formData, setFormData] = useState({
+    workerId: "",
     firstDate: "",
     secondDate: "",
   });
@@ -44,7 +49,6 @@ export default function management() {
     };
     fetchWorker();
   }, []);
-  console.log("dia", dayjs(formData.firstDate));
 
   return (
     <div className={styles.container}>
