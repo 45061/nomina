@@ -12,6 +12,7 @@ import { filterDayWorker } from "@/store/actions/workerAction";
 
 export default function management() {
   const { user } = useSelector((state) => state.authReducer);
+  const { worker, daysWorker } = useSelector((state) => state.workerReducer);
   const dispatch = useDispatch();
 
   const [dataWorkers, setDataWorkes] = useState([]);
@@ -48,7 +49,10 @@ export default function management() {
       }
     };
     fetchWorker();
-  }, []);
+  }, [worker, daysWorker]);
+
+  console.log("este es el trabajador", worker);
+  console.log("estos son los dias trabajados", daysWorker);
 
   return (
     <div className={styles.container}>
@@ -104,8 +108,34 @@ export default function management() {
           />
         </label>
         <div className={styles.data__buttonNewWorker}>
-          <button onClick={handleClick}>Crear Día Trabajado</button>
+          <button onClick={handleClick}>Filtrar Días</button>
         </div>
+      </div>
+      <div>
+        {!worker ? (
+          <div className={styles.data__workerW8}>
+            <h2>Seleccionar trabajador</h2>
+            <h2>Seleccionar Fechas Deseadas</h2>
+          </div>
+        ) : (
+          <div className={styles.data__worker}>
+            <div className={styles.worker__info}>
+              <h4>Empleado: {worker.name}</h4>
+              <h4>Empleado: {worker.numer}</h4>
+              <h4>Empleado: {worker.email}</h4>
+            </div>
+            <div className={styles.worker__info}>
+              <h4>Empleado: {worker.positionInTheCompany}</h4>
+              <h4>
+                Salario: ${new Intl.NumberFormat("es-MX").format(worker.salary)}
+              </h4>
+              <h4>
+                Fecha Ingreso:{" "}
+                {dayjs(worker.dateOfAdmission).$d.toString().substr(3, 12)}
+              </h4>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

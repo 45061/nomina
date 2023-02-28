@@ -97,3 +97,41 @@
 .register__input:focus {
   outline-color: #9b0ad0;
 }
+
+.data__workerW8 {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px 0;
+
+  h2 {
+    margin: 60px 0;
+    color: #d1aa65;
+    font-family: Oswald;
+    font-size: 42px;
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+}
+
+.worker__info {
+  display: flex;
+  justify-content: space-between;
+
+  h4 {
+    margin: 5px;
+    color: #4e4d4e;
+    font-family: Oswald;
+    font-size: 20px;
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 1px 1px rgb(186, 184, 184);
+    text-align: center;
+  }
+}

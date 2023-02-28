@@ -1,37 +1,21 @@
-import { AUTH_SUCCESS, AUTH_ERROR, LOGOUT, USER_SUCCESS } from "../types";
+import { DAYS_OF_WORKER, DATA_WORKER } from "../types";
 
 const initialState = {
-  worker: {},
-  daysWorker: {},
+  worker: false,
+  daysWorker: false,
 };
 
 function workerReducer(state = initialState, action = null) {
-  if (action.type === AUTH_SUCCESS) {
+  if (action.type === DATA_WORKER) {
     return {
       ...state,
-      isAuth: true,
-      error: null,
-      user: action.payload,
+      worker: action.payload,
     };
   }
-  if (action.type === AUTH_ERROR) {
+  if (action.type === DAYS_OF_WORKER) {
     return {
       ...state,
-      error: action.payload,
-    };
-  }
-  if (action.type === USER_SUCCESS) {
-    return {
-      ...state,
-      isAuth: true,
-      user: action.payload,
-    };
-  }
-  if (action.type === LOGOUT) {
-    return {
-      ...state,
-      isAuth: false,
-      user: null,
+      daysWorker: action.payload,
     };
   }
   return state;

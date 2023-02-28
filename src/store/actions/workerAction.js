@@ -6,6 +6,8 @@ import {
   workerRegisterForm,
 } from "./modalAction";
 
+import { DAYS_OF_WORKER, DATA_WORKER } from "../types";
+
 export const registerWorker = (body) => async (dispatch) => {
   try {
     // const cookies = new Cookies();
@@ -118,9 +120,9 @@ export const filterDayWorker = (body) => async (dispatch) => {
     // toast.success("Usuario registrado con exito");
     if (status === 201) {
       // dispatch(editWorkerDay());
-      console.log("funciono bien", data);
+      dispatch({ type: DATA_WORKER, payload: data.newWorker });
+      dispatch({ type: DAYS_OF_WORKER, payload: data.listDaysWork });
     }
-    // dispatch({ type: AUTH_SUCCESS, payload: user });
   } catch (error) {
     console.log("hay un error en filter, no entra");
     // dispatch({ type: AUTH_ERROR, payload: error });
