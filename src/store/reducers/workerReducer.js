@@ -2,7 +2,7 @@ import { DAYS_OF_WORKER, DATA_WORKER } from "../types";
 
 const initialState = {
   worker: false,
-  daysWorker: false,
+  daysWorker: [],
 };
 
 function workerReducer(state = initialState, action = null) {
