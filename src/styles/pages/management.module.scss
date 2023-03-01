@@ -142,7 +142,22 @@
   gap: 35px;
 }
 
+.tables {
+  gap: 30px;
+  h2 {
+    margin-top: 10px;
+    text-align: center;
+    font-style: normal;
+    font-family: Oswald;
+    text-shadow: 1px 1px rgb(186, 184, 184);
+  }
+}
+
 .tableOfWorkers {
+  margin-bottom: 40px;
+  th {
+    text-align: center;
+  }
   td {
     text-align: center;
   }

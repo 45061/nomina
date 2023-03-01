@@ -91,7 +91,8 @@ export default function management() {
 
   const arrayHours =
     daysWorker
-      ?.map((day) => day.hoursWorked.split(":").map((numer) => parseInt(numer)))
+      ?.filter((day) => day.holiday === false)
+      .map((day) => day.hoursWorked.split(":").map((numer) => parseInt(numer)))
       .map((day) => day[0] * 60 + day[1])
       .reduce((total, value) => total + value, 0) / 60;
 
@@ -115,9 +116,70 @@ export default function management() {
 
   const totalHoursMust = Math.floor(arrayHoursMust);
   const totalMinutsMust = Math.round((arrayHoursMust - totalHoursMust) * 60);
-  // const
 
-  console.log("este es ele arreglo de horas trabajadas", arrayHoursExtra);
+  const arrayHoursNight = daysWorker
+    ?.map((day) => parseInt(day.nightHours))
+    .reduce((total, value) => total + value, 0);
+
+  const arrayHoursHoliday =
+    daysWorker
+      ?.filter((day) => day.holiday === true)
+      .map((day) => day.hoursWorked.split(":").map((numer) => parseInt(numer)))
+      .map((day) => day[0] * 60 + day[1])
+      .reduce((total, value) => total + value, 0) / 60;
+
+  const totalHoursHoliday = Math.floor(arrayHoursHoliday);
+  const totalMinutsHoliday = Math.round(
+    (arrayHoursHoliday - totalHoursHoliday) * 60
+  );
+
+  const payHour = new Intl.NumberFormat("es-MX").format(
+    ((totalHours -
+      totalHoursExtra -
+      arrayHoursNight +
+      (totalMinuts - totalMinutsExtra) / 60) *
+      parseInt(worker.salary)) /
+      240
+  );
+  const payHourExtra = new Intl.NumberFormat("es-MX").format(
+    (((totalHoursExtra -
+      totalHoursMust +
+      (totalMinutsExtra - totalMinutsMust) / 60) *
+      parseInt(worker.salary)) /
+      240) *
+      1.25
+  );
+  const payHourNight = new Intl.NumberFormat("es-MX").format(
+    ((arrayHoursNight * parseInt(worker.salary)) / 240) * 1.75
+  );
+  const payHourHoliday = new Intl.NumberFormat("es-MX").format(
+    (((arrayHoursHoliday + totalMinutsHoliday / 60) * parseInt(worker.salary)) /
+      240) *
+      1.75
+  );
+
+  const total = new Intl.NumberFormat("es-MX").format(
+    Math.round(
+      (((arrayHoursHoliday + totalMinutsHoliday / 60) *
+        parseInt(worker.salary)) /
+        240) *
+        1.75 +
+        ((arrayHoursNight * parseInt(worker.salary)) / 240) * 1.75 +
+        (((totalHoursExtra -
+          totalHoursMust +
+          (totalMinutsExtra - totalMinutsMust) / 60) *
+          parseInt(worker.salary)) /
+          240) *
+          1.25 +
+        ((totalHours -
+          totalHoursExtra -
+          arrayHoursNight +
+          (totalMinuts - totalMinutsExtra) / 60) *
+          parseInt(worker.salary)) /
+          240
+    )
+  );
+  console.log("este es ele arreglo de horas trabajadas", arrayHoursNight);
 
   return (
     <div className={styles.container}>
@@ -223,23 +285,60 @@ export default function management() {
                   </Table>
                 )}
               </div>
-              <div className={styles.tableOfWorkers}>
-                <Table striped highlightOnHover>
-                  <thead>
-                    <tr>
-                      <th>Horas Trabajadas</th>
-                      <th>Horas Extras</th>
-                      <th>Horas Faltantes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{`${totalHours}:${totalMinuts}`}</td>
-                      <td>{`${totalHoursExtra}:${totalMinutsExtra}`}</td>
-                      <td>{`${totalHoursMust}:${totalMinutsMust}`}</td>
-                    </tr>
-                  </tbody>
-                </Table>
+              <div className={styles.tables}>
+                <div className={styles.tableOfWorkers}>
+                  <Table striped highlightOnHover>
+                    <thead>
+                      <tr>
+                        <th>Horas Trabajadas No Festivas</th>
+                        <th>Horas Extras</th>
+                        <th>Horas Faltantes</th>
+                        <th>Horas Nocturnas</th>
+                        <th>Horas Festivas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{`${totalHours}:${totalMinuts}`}</td>
+                        <td>{`${totalHoursExtra}:${totalMinutsExtra}`}</td>
+                        <td>{`${totalHoursMust}:${totalMinutsMust}`}</td>
+                        <td>{arrayHoursNight}</td>
+                        <td>{`${totalHoursHoliday}:${totalMinutsHoliday}`}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+                <div className={styles.tableOfWorkers}>
+                  <Table striped highlightOnHover>
+                    <thead>
+                      <tr>
+                        <th>Horas a Cancelar</th>
+                        <th>Horas Extras Totales</th>
+                        <th>Horas Nocturnas</th>
+                        <th>Horas Festivas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{`${
+                          totalHours - totalHoursExtra - arrayHoursNight
+                        }:${totalMinuts - totalMinutsExtra}`}</td>
+                        <td>{`${totalHoursExtra - totalHoursMust}:${
+                          totalMinutsExtra - totalMinutsMust
+                        }`}</td>
+                        <td>{arrayHoursNight}</td>
+                        <td>{`${totalHoursHoliday}:${totalMinutsHoliday}`}</td>
+                      </tr>
+                      <tr>
+                        <td>$ {payHour}</td>
+                        <td>$ {payHourExtra}</td>
+                        <td>$ {payHourNight}</td>
+                        <td>$ {payHourHoliday}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+                <h2> Total Quincena: $ {total}</h2>
               </div>
             </div>
           </>
