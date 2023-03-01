@@ -65,7 +65,7 @@ export default function management() {
   };
 
   const row = daysWorker
-    .map((element) => {
+    ?.map((element) => {
       const workDay = `${dayjs(element.workDay).$d.toString().substr(3, 13)}
       ${week[dayjs(element.workDay).$W]}`;
 
@@ -88,6 +88,36 @@ export default function management() {
       );
     })
     .reverse();
+
+  const arrayHours =
+    daysWorker
+      ?.map((day) => day.hoursWorked.split(":").map((numer) => parseInt(numer)))
+      .map((day) => day[0] * 60 + day[1])
+      .reduce((total, value) => total + value, 0) / 60;
+
+  const totalHours = Math.floor(arrayHours);
+  const totalMinuts = Math.round((arrayHours - totalHours) * 60);
+
+  const arrayHoursExtra =
+    daysWorker
+      ?.map((day) => day.extraHours.split(":").map((numer) => parseInt(numer)))
+      .map((day) => day[0] * 60 + day[1])
+      .reduce((total, value) => total + value, 0) / 60;
+
+  const totalHoursExtra = Math.floor(arrayHoursExtra);
+  const totalMinutsExtra = Math.round((arrayHoursExtra - totalHoursExtra) * 60);
+
+  const arrayHoursMust =
+    daysWorker
+      ?.map((day) => day.mustHours.split(":").map((numer) => parseInt(numer)))
+      .map((day) => day[0] * 60 + day[1])
+      .reduce((total, value) => total + value, 0) / 60;
+
+  const totalHoursMust = Math.floor(arrayHoursMust);
+  const totalMinutsMust = Math.round((arrayHoursMust - totalHoursMust) * 60);
+  // const
+
+  console.log("este es ele arreglo de horas trabajadas", arrayHoursExtra);
 
   return (
     <div className={styles.container}>
@@ -192,6 +222,24 @@ export default function management() {
                     <tbody>{row}</tbody>
                   </Table>
                 )}
+              </div>
+              <div className={styles.tableOfWorkers}>
+                <Table striped highlightOnHover>
+                  <thead>
+                    <tr>
+                      <th>Horas Trabajadas</th>
+                      <th>Horas Extras</th>
+                      <th>Horas Faltantes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{`${totalHours}:${totalMinuts}`}</td>
+                      <td>{`${totalHoursExtra}:${totalMinutsExtra}`}</td>
+                      <td>{`${totalHoursMust}:${totalMinutsMust}`}</td>
+                    </tr>
+                  </tbody>
+                </Table>
               </div>
             </div>
           </>
