@@ -1,25 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Calendar } from "@mantine/dates";
-import dayjs from "dayjs";
 import "react-datepicker/dist/react-datepicker.css";
-// import { useNavigate } from "react-router-dom";
-import { showLoginNav, hiddeRegisterForm } from "../store/actions/modalAction";
-import { Button, Popover } from "@mantine/core";
-// import ButtonAction from "../ButtonAction";
 import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
 import { registerDayWorker } from "@/store/actions/workerAction";
-import DatePicker from "react-datepicker";
 
 export default function WorkerForm({ idWorker }) {
-  const [dateEntryTime, setDateEntryTime] = useState();
-  const [datedepartureTime, setDatedepartureTime] = useState();
-  const dataDate = dayjs(dateEntryTime);
-
   const [formData, setFormData] = useState({
     workerId: "",
     workDay: "",
@@ -61,7 +50,6 @@ export default function WorkerForm({ idWorker }) {
   };
 
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   const onChange = (event) => {
     setFormData({
@@ -72,24 +60,17 @@ export default function WorkerForm({ idWorker }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     formData.workerId = idWorker;
     formData.workDay = formData.entryTime;
-    // formData.entryTime = dateEntryTime;
-    // formData.departureTime = datedepartureTime;
-
     dispatch(registerDayWorker(formData));
-    // console.log(formData);
-
-    // dispatch(hiddeRegisterForm());
   };
 
   return (
     <form className={styles.register}>
       <header className={styles.register__header}>
         <div className={styles.register__brand}>
-          {/* <div className={styles.register__brand}> */}
           <img src="/nominaApp.svg" alt="logoNomina" />
-          {/* </div> */}
         </div>
         <p className={styles.register__title}> Día del Empleado </p>
       </header>

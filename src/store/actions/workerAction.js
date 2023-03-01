@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
   editWorkerDay,
   editWorkerForm,
@@ -10,122 +11,90 @@ import { DAYS_OF_WORKER, DATA_WORKER } from "../types";
 
 export const registerWorker = (body) => async (dispatch) => {
   try {
-    // const cookies = new Cookies();
     const response = await axios.post("/api/workers/register", body);
 
-    // const { token, message, ...user } = response;
-    // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-
-    // toast.success("Usuario registrado con exito");
-    dispatch(workerRegisterForm());
-    // dispatch({ type: AUTH_SUCCESS, payload: user });
+    if (response.status === 201) {
+      toast.success("Trabajador registrado con exito");
+      dispatch(workerRegisterForm());
+    }
   } catch (error) {
     console.log("hay un error en register, no entra");
-    // dispatch({ type: AUTH_ERROR, payload: error });
-    // toast.error("Error en el registro");
+    toast.error("Error en el registro");
   }
 };
 
 export const registerDayWorker = (body) => async (dispatch) => {
   try {
-    // const cookies = new Cookies();
     const response = await axios.post("/api/daysWorkers/register", body);
 
     if (response.status === 201) {
       dispatch(workerDayForm());
+      toast.success("Día registrado con exito");
     }
-
-    // const { token, message, ...user } = response;
-    // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-
-    // toast.success("Usuario registrado con exito");
-    // dispatch({ type: AUTH_SUCCESS, payload: user });
   } catch (error) {
     console.log("hay un error en register, no entra");
-    // dispatch({ type: AUTH_ERROR, payload: error });
-    // toast.error("Error en el registro");
+    toast.error("Error en el registro");
   }
 };
 
 export const putWorker = (body) => async (dispatch) => {
   try {
-    // const cookies = new Cookies();
     const response = await axios.put("/api/workers/register", body);
 
-    // const { token, message, ...user } = response;
-    // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-
-    // toast.success("Usuario registrado con exito");
+    //
     if (response.status === 201) {
       dispatch(editWorkerForm());
+      toast.success("Trabajador actualizado con exito");
     }
-    // dispatch({ type: AUTH_SUCCESS, payload: user });
   } catch (error) {
     console.log("hay un error en put, no entra");
-    // dispatch({ type: AUTH_ERROR, payload: error });
-    // toast.error("Error en el registro");
+    toast.error("Error en la actualización");
   }
 };
 
 export const putDayWorker = (body) => async (dispatch) => {
   try {
-    // const cookies = new Cookies();
     const response = await axios.put("/api/daysWorkers/register", body);
 
-    // const { token, message, ...user } = response;
-    // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-
-    // toast.success("Usuario registrado con exito");
     if (response.status === 201) {
       dispatch(editWorkerDay());
+      toast.success("Día actualizado con exito");
     }
-    // dispatch({ type: AUTH_SUCCESS, payload: user });
   } catch (error) {
     console.log("hay un error en put, no entra");
-    // dispatch({ type: AUTH_ERROR, payload: error });
-    // toast.error("Error en el registro");
+    toast.error("Error en la actualización");
   }
 };
 
 export const deleteDayWorker = (body) => async (dispatch) => {
   try {
-    // const cookies = new Cookies();
     const response = await axios.delete("/api/daysWorkers/register", {
       data: body,
     });
 
-    // const { token, message, ...user } = response;
-    // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-
-    // toast.success("Usuario registrado con exito");
     if (response.status === 201) {
       dispatch(editWorkerDay());
+      toast.success("Día eliminado con exito");
     }
-    // dispatch({ type: AUTH_SUCCESS, payload: user });
   } catch (error) {
     console.log("hay un error en delete, no entra");
-    // dispatch({ type: AUTH_ERROR, payload: error });
-    // toast.error("Error en el registro");
+    toast.error("Error en la eliminación");
   }
 };
 
 export const filterDayWorker = (body) => async (dispatch) => {
   try {
-    // const cookies = new Cookies();
     const response = await axios.post("/api/daysWorkers/", body);
 
-    // const { token, message, ...user } = response;
-    // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
     const { status, data } = response;
-    // toast.success("Usuario registrado con exito");
+
     if (status === 201) {
-      // dispatch(editWorkerDay());
+      toast.success("Filtrado con exito");
       dispatch({ type: DATA_WORKER, payload: data.newWorker });
       dispatch({ type: DAYS_OF_WORKER, payload: data.listDaysWork });
     }
   } catch (error) {
     console.log("hay un error en filter, no entra");
-    // dispatch({ type: AUTH_ERROR, payload: error });
-    // toast.error("Error en el registro");
+    toast.error("Error en el filtrado");
   }
 };

@@ -1,7 +1,5 @@
 import { Menu, Divider, createStyles, Modal } from "@mantine/core";
 import { UserCheck, UserOff, User } from "tabler-icons-react";
-import axios from "axios";
-// import { parse } from "cookie";
 import { useDispatch, useSelector } from "react-redux";
 import {
   showLoginNav,
@@ -9,11 +7,9 @@ import {
   hiddeLoginNav,
 } from "@/store/actions/modalAction";
 import Link from "next/link";
-// import dayjs from "dayjs";
 
 import { useMediaQuery } from "@mantine/hooks";
 import Login from "./Login";
-import { useEffect, useState } from "react";
 import PublicModal from "./PublicModal";
 import Register from "./Register";
 import { logout } from "@/store/actions/authAction";
@@ -30,19 +26,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-// const fetchAuth = async () => {
-//   const response = await axios.get("/api/user/profile");
-//   return response.data;
-// };
-
 export default function MenuNavbar() {
-  // const cookies = cookie.parse(req.headers.cookie || "myTokenNAme");
-  // const isAuth = cookie.name;
-  const [opened, setOpened] = useState(false);
-  // const [auth, setAuth] = useState({});
   const dispatch = useDispatch();
-  // const thisDay = dayjs().$d.toString().substr(0, 24);
-  // console.log("esto es cookies", cookies);
   const largeScreen = useMediaQuery("(min-width: 1024px)");
   const { isAuth } = useSelector((state) => state.authReducer);
   const { showingLoginNav, showingRegisterForm } = useSelector(
@@ -51,40 +36,14 @@ export default function MenuNavbar() {
 
   const { classes } = useStyles();
 
-  // const auth = await fetchAuth();
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const response = await axios.get("/api/user/profile");
-  //     setAuth(response.data);
-  //     // dispatch(showLoginForm());
-  //   };
-  //   getUser();
-  // }, [opened]);
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(showLoginNav());
   };
-  // const handleClick = async (event) => {
-  //   event.preventDefault();
-  //   const response = await axios.get("/api/user/profile");
-  //   setAuth(response.data);
-  //   // dispatch(showLoginForm());
-  // };
+
   const handleClick2 = async (event) => {
     event.preventDefault();
     dispatch(logout());
-
-    // if (!boxActive) {
-    //   return dispatch(logout());
-    // }
-    // const dataBox = boxActive._id;
-    // const dataClosed = {
-    //   lastClosing: thisDay,
-    //   dataBox,
-    //   balanceClosed: balance,
-    // };
-    // dispatch(closedBox(dataClosed));
-    // dispatch(logout());
   };
 
   return (
@@ -101,7 +60,6 @@ export default function MenuNavbar() {
         transitionDuration={150}
         withArrow
         classNames={classes}
-        // control={<button type="button">Perfil</button>}
       >
         <Menu.Target>
           <button type="button">Perfil</button>
@@ -121,11 +79,6 @@ export default function MenuNavbar() {
 
           <Divider />
 
-          {/* <Link href="/userProfile"> */}
-          {/* <Menu.Item icon={<User size={14} />}>Perfil</Menu.Item> */}
-          {/* </Link> */}
-
-          {/* <Link href="/userProfile" prefetch={false}> */}
           {isAuth ? (
             <Link href="/userProfile" prefetch={false}>
               <Menu.Item icon={<User size={14} />}>Perfil</Menu.Item>
@@ -133,7 +86,6 @@ export default function MenuNavbar() {
           ) : (
             <Menu.Item>Wellcome</Menu.Item>
           )}
-          {/* </Link> */}
         </Menu.Dropdown>
       </Menu>
       <PublicModal
@@ -150,12 +102,6 @@ export default function MenuNavbar() {
       >
         <Login />
       </PublicModal>
-      {/* <PublicModal
-        opened={showRecoverPassword}
-        onClose={() => dispatch(hiddeRecoverPassword())}
-      >
-        <GetEmail />
-      </PublicModal> */}
       <style jsx>
         {`
           button {
@@ -173,9 +119,6 @@ export default function MenuNavbar() {
           }
         `}
       </style>
-      {/* <Modal opened={opened} onClose={() => setOpened(false)}>
-        <Login />
-      </Modal> */}
     </>
   );
 }

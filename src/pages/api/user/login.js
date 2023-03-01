@@ -39,7 +39,6 @@ export default async function login(req, res) {
       path: "/",
     });
 
-    // console.log("este es el token del back", token);
     res.setHeader("Set-Cookie", serialized);
     return res.status(201).json({
       message: "User login",

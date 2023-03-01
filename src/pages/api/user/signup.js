@@ -50,7 +50,6 @@ export default async function handler(req, res) {
           ...req.body,
           password: encPassword,
         });
-        // sendMail(user);
 
         const token = jwt.sign(
           {

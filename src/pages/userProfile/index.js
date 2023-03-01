@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import axios from "axios";
 // import profileHandler from "../api/user/profile";
 // import fetchProfile from "../../pages/api/getData";
+import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import styles from "../../styles/pages/userProfile.module.scss";
@@ -38,7 +38,6 @@ export default function userProfile() {
   const [value, setValue] = useState(null);
   const [dataWorker, setDataWorker] = useState({});
   const [dataWorkerDay, setDataWorkerDay] = useState({});
-  // const thisUser = JSON.parse(userInfo);
 
   const week = {
     0: "Dom",
@@ -51,13 +50,6 @@ export default function userProfile() {
   };
 
   useEffect(() => {
-    // const getUser = async () => {
-    //   const response = await axios.get("/api/user/profile");
-    //   setAuth(response.data);
-    //   // dispatch(showLoginForm());
-    // };
-    // getUser();
-
     const fetchWorker = async () => {
       try {
         const response = await axios.get("/api/workers/register");
@@ -74,7 +66,6 @@ export default function userProfile() {
         if (!value) {
           return;
         }
-        // console.log("esto es value", value);
         const response = await axios.post(
           "/api/daysWorkers/daysWorker",
           workId
@@ -86,22 +77,6 @@ export default function userProfile() {
       }
     };
     dataDaysWorker();
-
-    // const workers = dispatch(fetchWorker());
-
-    // const fetchBooking = async () => {
-    //   await fetch("/api/booking", {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //     .then((resp) => resp.json())
-    //     .then((data) => {
-    //       setDataBookings(data);
-    //     });
-    // };
-    // fetchBooking();
   }, [
     showingWorkerRegisterForm,
     value,
@@ -109,9 +84,7 @@ export default function userProfile() {
     showingEditWorker,
     showingEditWorkerDay,
   ]);
-  // console.log("estos son los trabajadores", dataWorkers);
 
-  // console.log("esto es auth", auth);
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(workerRegisterForm());
@@ -351,14 +324,3 @@ export default function userProfile() {
     </div>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   const dataUser = await axios.get("http://localhost:3000/api/user/profile");
-//   console.log(dataUser.data);
-
-//   const userInfo = dataUser.data;
-
-//   // const userInfo = JSON.stringify(dataUser);
-
-//   return { props: { userInfo } };
-// }
