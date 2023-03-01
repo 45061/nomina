@@ -1,0 +1,164 @@
+.container {
+  margin: 0 30px;
+  padding-top: 10px;
+}
+
+.container__data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.data__dataUser {
+  h1 {
+    font-family: raustila;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    color: #9b0ad0;
+    font-size: 54px;
+    direction: ltr;
+  }
+  h2 {
+    font-family: raustila;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    color: #d1aa65;
+    font-size: 32px;
+    direction: ltr;
+  }
+  h4 {
+    margin: 0;
+    color: #9b0ad0;
+    font-family: Oswald;
+    font-size: 20px;
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 1px 1px rgb(186, 184, 184);
+  }
+}
+
+.dataWorkers {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  h4 {
+    margin: 0;
+    color: #9b0ad0;
+    font-family: Oswald;
+    font-size: 20px;
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 1px 1px rgb(186, 184, 184);
+  }
+}
+
+.dataWorkers__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 10px;
+
+  h4 {
+    margin: 0;
+    color: #9b0ad0;
+    font-family: Oswald;
+    font-size: 20px;
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 1px 1px rgb(186, 184, 184);
+  }
+
+  button {
+    margin-right: 120px;
+    background-color: transparent;
+    border: none;
+    font-family: raustila;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    color: #9b0ad0;
+    font-size: 36px;
+    direction: ltr;
+    cursor: pointer;
+  }
+}
+
+.register__input {
+  width: 100%;
+  padding: 6px 6px;
+  border: 1px solid #cccccc;
+  border-radius: 0.25rem;
+}
+
+.register__input:focus {
+  outline-color: #9b0ad0;
+}
+
+.data__workerW8 {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px 0;
+
+  h2 {
+    margin: 60px 0;
+    color: #d1aa65;
+    font-family: Oswald;
+    font-size: 42px;
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+}
+
+.worker__info {
+  display: flex;
+  justify-content: space-between;
+
+  h4 {
+    margin: 5px;
+    color: #4e4d4e;
+    font-family: Oswald;
+    font-size: 20px;
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 1px 1px rgb(186, 184, 184);
+    text-align: center;
+  }
+}
+
+.data__workerDays {
+  display: flex;
+  margin: 20px 0 50px;
+  gap: 35px;
+}
+
+.tables {
+  gap: 30px;
+  h2 {
+    margin-top: 10px;
+    text-align: center;
+    font-style: normal;
+    font-family: Oswald;
+    text-shadow: 1px 1px rgb(186, 184, 184);
+  }
+}
+
+.tableOfWorkers {
+  margin-bottom: 40px;
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+  }
+}

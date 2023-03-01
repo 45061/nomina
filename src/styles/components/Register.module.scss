@@ -1,0 +1,128 @@
+.register__header {
+  padding: 1rem 0;
+}
+
+.register__brand {
+  position: absolute;
+  top: 10px;
+  left: 40%;
+  height: 110px;
+  img {
+    height: 100%;
+    margin: 0;
+  }
+}
+
+.register__brand__icon {
+  display: block;
+  height: 100%;
+  transform: scale(0, 2, 0.2);
+}
+
+.register__brand__letter {
+  display: block;
+  height: 100%;
+}
+
+.register__title {
+  margin: 0;
+  color: #9b0ad0;
+  font-family: raustila;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  direction: ltr;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2rem;
+}
+
+.register__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+
+  label {
+    color: #9b0ad0;
+    font-family: oswald;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.2rem;
+  }
+}
+
+.register__input {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #cccccc;
+  border-radius: 0.25rem;
+}
+
+.register__input:focus {
+  outline-color: #9b0ad0;
+}
+
+.register__input--span {
+  // @include tabletAndDesktop() {
+  //   grid-column: span 2;
+  // }
+}
+
+.register__link {
+  border: none;
+  color: #9b0ad0;
+  background-color: white;
+  font-size: 1rem;
+}
+
+.register__footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+
+  button {
+    cursor: pointer;
+  }
+}
+.register__worker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    cursor: pointer;
+  }
+}
+
+.btn_action {
+  justify-content: center;
+  flex-grow: 0.5;
+  padding: 6px 10px;
+  margin: 0px 10px;
+  border: 1px solid #9b0ad0;
+  border-radius: 2px;
+  color: white;
+  background-color: #9b0ad0;
+}
+
+.date__worker {
+  h1 {
+    color: #9b0ad0;
+    font-family: raustila;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    direction: ltr;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2rem;
+    text-align: center;
+  }
+}
+
+.datePiker {
+  border: 1px solid #cccccc;
+  border-radius: 0.25rem;
+  width: 100%;
+  padding: 6px 8px;
+}
