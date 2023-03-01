@@ -53,16 +53,37 @@ export default async function handler(req, res) {
         } else {
           body.lunch = false;
         }
-        if (dayjs(workNoLunch).$H >= 9) {
+        console.log(dayjs(entryTime));
+
+        if (dayjs(entryTime).$W === 6 && dayjs(workNoLunch).$H > 5) {
+          const extraHours = moment(dayjs(workNoLunch).$d)
+            .subtract(5, "h")
+            .subtract(30, "m")
+            .format();
+          body.extraHours = `${dayjs(extraHours).$H}:${dayjs(extraHours).$m}`;
+        } else if (dayjs(workNoLunch).$H >= 9) {
           const extraHours = moment(dayjs(workNoLunch).$d)
             .subtract(8, "h")
             .subtract(30, "m")
             .format();
           body.extraHours = `${dayjs(extraHours).$H}:${dayjs(extraHours).$m}`;
         } else {
-          body.extraHours = 0;
+          body.extraHours = "0:0";
         }
-        if (dayjs(workNoLunch).$H < 8) {
+
+        if (dayjs(entryTime).$W === 6 && dayjs(workNoLunch).$H <= 5) {
+          const mustHoursCounter = moment(dayjs(workNoLunch).$d)
+            .subtract(5, "h")
+            .subtract(30, "m")
+            .format();
+          if (dayjs(mustHoursCounter).$m === 0) {
+            body.mustHours = `${24 - dayjs(mustHoursCounter).$H}:0`;
+          } else {
+            body.mustHours = `${23 - dayjs(mustHoursCounter).$H}:${
+              60 - dayjs(mustHoursCounter).$m
+            }`;
+          }
+        } else if (dayjs(workNoLunch).$H < 8) {
           const mustHoursCounter = moment(dayjs(workNoLunch).$d)
             .subtract(8, "h")
             .subtract(30, "m")
@@ -75,7 +96,7 @@ export default async function handler(req, res) {
             }`;
           }
         } else {
-          body.mustHours = 0;
+          body.mustHours = "0:0";
         }
 
         const dayWorker = await Worked.create({
@@ -166,7 +187,16 @@ export default async function handler(req, res) {
         } else {
           dayWorker.lunch = false;
         }
-        if (dayjs(workNoLunch).$H >= 9) {
+
+        if (dayjs(entryTime).$W === 6 && dayjs(workNoLunch).$H > 5) {
+          const extraHours = moment(dayjs(workNoLunch).$d)
+            .subtract(5, "h")
+            .subtract(30, "m")
+            .format();
+          dayWorker.extraHours = `${dayjs(extraHours).$H}:${
+            dayjs(extraHours).$m
+          }`;
+        } else if (dayjs(workNoLunch).$H >= 9) {
           const extraHours = moment(dayjs(workNoLunch).$d)
             .subtract(8, "h")
             .subtract(30, "m")
@@ -175,9 +205,22 @@ export default async function handler(req, res) {
             dayjs(extraHours).$m
           }`;
         } else {
-          dayWorker.extraHours = 0;
+          dayWorker.extraHours = "0:0";
         }
-        if (dayjs(workNoLunch).$H < 8) {
+
+        if (dayjs(entryTime).$W === 6 && dayjs(workNoLunch).$H <= 5) {
+          const mustHoursCounter = moment(dayjs(workNoLunch).$d)
+            .subtract(5, "h")
+            .subtract(30, "m")
+            .format();
+          if (dayjs(mustHoursCounter).$m === 0) {
+            dayWorker.mustHours = `${24 - dayjs(mustHoursCounter).$H}:0`;
+          } else {
+            dayWorker.mustHours = `${23 - dayjs(mustHoursCounter).$H}:${
+              60 - dayjs(mustHoursCounter).$m
+            }`;
+          }
+        } else if (dayjs(workNoLunch).$H < 8) {
           const mustHoursCounter = moment(dayjs(workNoLunch).$d)
             .subtract(8, "h")
             .subtract(30, "m")
@@ -190,7 +233,7 @@ export default async function handler(req, res) {
             }`;
           }
         } else {
-          dayWorker.mustHours = 0;
+          dayWorker.mustHours = "0:0";
         }
 
         dayWorker.workDay = body.workDay;
