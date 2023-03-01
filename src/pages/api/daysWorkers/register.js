@@ -6,7 +6,6 @@ import Worker from "../../../models/worker.model";
 import { verify } from "jsonwebtoken";
 import dayjs from "dayjs";
 import moment from "moment";
-import login from "../user/login";
 
 dbConnect();
 
@@ -53,7 +52,6 @@ export default async function handler(req, res) {
         } else {
           body.lunch = false;
         }
-        console.log(dayjs(entryTime));
 
         if (dayjs(entryTime).$W === 6 && dayjs(workNoLunch).$H > 5) {
           const extraHours = moment(dayjs(workNoLunch).$d)
@@ -153,7 +151,6 @@ export default async function handler(req, res) {
         }
 
         const { id } = body;
-        // console.log("esto es id", id);
 
         const dayWorker = await Worked.findById(id);
 
@@ -279,8 +276,6 @@ export default async function handler(req, res) {
         );
 
         await worker.save({ validateBeforeSave: false });
-
-        // const daysWorker = await Worked.find();
 
         return res.status(201).json({
           message: "Worked Delete",

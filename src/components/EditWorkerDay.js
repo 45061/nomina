@@ -1,29 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Calendar } from "@mantine/dates";
-import dayjs from "dayjs";
 import "react-datepicker/dist/react-datepicker.css";
-// import { useNavigate } from "react-router-dom";
-import { showLoginNav, hiddeRegisterForm } from "../store/actions/modalAction";
-import { Button, Popover } from "@mantine/core";
-// import ButtonAction from "../ButtonAction";
 import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import {
-  deleteDayWorker,
-  putDayWorker,
-  registerDayWorker,
-} from "@/store/actions/workerAction";
-import DatePicker from "react-datepicker";
+import { deleteDayWorker, putDayWorker } from "@/store/actions/workerAction";
 
 export default function EditWorkerForm({ data }) {
-  const [dateEntryTime, setDateEntryTime] = useState();
-  const [datedepartureTime, setDatedepartureTime] = useState();
-  const dataDate = dayjs(dateEntryTime);
-
   const [formData, setFormData] = useState({
     id: data._id,
     workerId: data.workerId,
@@ -66,7 +51,6 @@ export default function EditWorkerForm({ data }) {
   };
 
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   const onChange = (event) => {
     setFormData({
@@ -77,35 +61,22 @@ export default function EditWorkerForm({ data }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // formData.workerId = idWorker;
+
     formData.workDay = formData.entryTime;
-    // formData.departureTime = datedepartureTime;
-
     dispatch(putDayWorker(formData));
-    // console.log(formData);
-
-    // dispatch(hiddeRegisterForm());
   };
 
   const handleSubmit2 = async (event) => {
     event.preventDefault();
-    // formData.workerId = idWorker;
-    // formData.workDay = formData.entryTime;
-    // formData.departureTime = datedepartureTime;
 
     dispatch(deleteDayWorker(data));
-    // console.log(formData);
-
-    // dispatch(hiddeRegisterForm());
   };
 
   return (
     <form className={styles.register}>
       <header className={styles.register__header}>
         <div className={styles.register__brand}>
-          {/* <div className={styles.register__brand}> */}
           <img src="/nominaApp.svg" alt="logoNomina" />
-          {/* </div> */}
         </div>
         <p className={styles.register__title}>Edición Día del Empleado </p>
       </header>

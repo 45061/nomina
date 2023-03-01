@@ -11,39 +11,11 @@ import { login } from "@/store/actions/authAction";
 
 export default function Login() {
   const dispatch = useDispatch();
-  // async function login(loginData) {
-  //   try {
-  //     // const cookies = new Cookies();
-  //     console.log("esto es loginData", loginData);
-  //     const response = await axios.post("/api/user/login", loginData);
-  //     // const data = await response.json();
-  //     if (response.status === 201) {
-  //       // router.push("/");
-  //       setGoodLogin(true);
-  //       console.log("saliendo");
-  //     }
-  //     console.log("esto es estatus", response.status);
-
-  //     if (response.status === 403) {
-  //       return console.log("error");
-  //     }
-  //     // console.log("ëste es token", token);
-  //     // cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-  //     // dispatch(hiddeLoginForm());
-  //     // toast.success("Usuario ha realizado login con exito");
-  //     // dispatch({ type: AUTH_SUCCESS, payload: data.user });
-  //   } catch (error) {
-  //     console.log("hay un gran error");
-  //     // dispatch({ type: AUTH_ERROR, payload: error });
-  //     // toast.error("Usuario o contraseña errada");
-  //   }
-  // }
 
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-  // const dispatch = useDispatch();
 
   const onChange = (event) => {
     setLoginData({
@@ -54,10 +26,8 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log("este es el formulario", loginData);
-    // dispatch(
+
     dispatch(login(loginData));
-    // );
   };
 
   return (
@@ -100,7 +70,6 @@ export default function Login() {
           required
         />
 
-        {/* Recover */}
         <button
           type="button"
           className={styles.login__link}

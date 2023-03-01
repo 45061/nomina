@@ -48,7 +48,9 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        const workers = await Worker.find();
+        const workers = await Worker.find().select(
+          "firstName lastName _id email numer dateOfAdmission salary positionInTheCompany healthProvider pensionProvider compensationBox occupationalRiskInsurer activeEmployee"
+        );
 
         return res.status(201).json({
           message: "Worker Found",
@@ -73,7 +75,6 @@ export default async function handler(req, res) {
         }
 
         const { id } = req.body;
-        // console.log("esto es id", id);
 
         const worker = await Worker.findById(id);
 

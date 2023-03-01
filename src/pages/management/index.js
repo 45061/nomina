@@ -21,7 +21,6 @@ export default function management() {
   const handleClick = (event) => {
     event.preventDefault();
     formData.workerId = value;
-    console.log("estyos son los dias", formData);
     dispatch(filterDayWorker(formData));
   };
 
@@ -41,7 +40,6 @@ export default function management() {
   useEffect(() => {
     const fetchWorker = async () => {
       try {
-        console.log("entra al fetch");
         const response = await axios.get("/api/workers/register");
         setDataWorkes(response.data.workers);
       } catch (error) {
@@ -50,9 +48,6 @@ export default function management() {
     };
     fetchWorker();
   }, [worker, daysWorker]);
-
-  console.log("este es el trabajador", worker);
-  console.log("estos son los dias trabajados", daysWorker);
 
   const week = {
     0: "Dom",
@@ -179,7 +174,6 @@ export default function management() {
           240
     )
   );
-  console.log("este es ele arreglo de horas trabajadas", arrayHoursNight);
 
   return (
     <div className={styles.container}>
