@@ -26,7 +26,12 @@ export default async function handler(req, res) {
         if (!typeUser) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
-        const { entryTime, departureTime, workerId } = body;
+        const { entryTime, departureTime, workerId, lunchTime } = body;
+
+        const hoursLunchTime = Math.floor(parseInt(lunchTime) / 60);
+        const minutsLunchTime = Math.round(
+          (parseInt(lunchTime) / 60 - hoursLunchTime) * 60
+        );
 
         const worker = await Worker.findById(workerId);
 
@@ -37,13 +42,12 @@ export default async function handler(req, res) {
           .subtract(dayjs(entryTime).$m, "m")
           .format();
 
-        if (dayjs(departureTime).$H - dayjs(entryTime).$H >= 8) {
-          workNoLunch.push(moment(workDone).subtract(1, "h").format());
-        } else if (dayjs(departureTime).$H > 13 && dayjs(entryTime).$H < 12) {
-          workNoLunch.push(moment(workDone).subtract(1, "h").format());
-        } else {
-          workNoLunch.push(workDone);
-        }
+        workNoLunch.push(
+          moment(workDone)
+            .subtract(hoursLunchTime, "h")
+            .subtract(minutsLunchTime, "m")
+            .format()
+        );
 
         body.hoursWorked = `${dayjs(workNoLunch).$H}:${dayjs(workNoLunch).$m}`;
 
@@ -158,7 +162,12 @@ export default async function handler(req, res) {
           return res.status(400).json({ message: "No find Worker" });
         }
 
-        const { entryTime, departureTime, workerId } = body;
+        const { entryTime, departureTime, lunchTime } = body;
+
+        const hoursLunchTime = Math.floor(parseInt(lunchTime) / 60);
+        const minutsLunchTime = Math.round(
+          (parseInt(lunchTime) / 60 - hoursLunchTime) * 60
+        );
 
         const workNoLunch = [];
 
@@ -167,13 +176,12 @@ export default async function handler(req, res) {
           .subtract(dayjs(entryTime).$m, "m")
           .format();
 
-        if (dayjs(departureTime).$H - dayjs(entryTime).$H >= 8) {
-          workNoLunch.push(moment(workDone).subtract(1, "h").format());
-        } else if (dayjs(departureTime).$H > 13 && dayjs(entryTime).$H < 12) {
-          workNoLunch.push(moment(workDone).subtract(1, "h").format());
-        } else {
-          workNoLunch.push(workDone);
-        }
+        workNoLunch.push(
+          moment(workDone)
+            .subtract(hoursLunchTime, "h")
+            .subtract(minutsLunchTime, "m")
+            .format()
+        );
 
         dayWorker.hoursWorked = `${dayjs(workNoLunch).$H}:${
           dayjs(workNoLunch).$m
