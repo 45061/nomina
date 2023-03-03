@@ -20,6 +20,7 @@ export default function EditWorkerForm({ data }) {
     extraHours: data.extraHours,
     mustHours: data.mustHours,
     nightHours: data.nightHours,
+    lunchTime: data.lunchTime,
     holiday: data.holiday,
     vacations: data.vacations,
     inability: data.inability,
@@ -119,6 +120,20 @@ export default function EditWorkerForm({ data }) {
               type="email"
               classname={styles.register__input}
               placeholder={data.nightHours}
+              onChange={onChange}
+              errorMessage="Debe ser email valido"
+              required
+            />
+          </label>
+          <label>
+            {" "}
+            Minutos de Almuerzo
+            <InputValidator
+              name="lunchTime"
+              value={formData.name}
+              type="email"
+              classname={styles.register__input}
+              placeholder={data.lunchTime}
               onChange={onChange}
               errorMessage="Debe ser email valido"
               required
