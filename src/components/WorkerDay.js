@@ -19,6 +19,7 @@ export default function WorkerForm({ idWorker }) {
     extraHours: "",
     mustHours: "",
     nightHours: "",
+    lunchTime: "",
     holiday: "",
     vacations: "",
     inability: "",
@@ -111,6 +112,18 @@ export default function WorkerForm({ idWorker }) {
             placeholder="Horas Nocturnas"
             onChange={onChange}
             errorMessage="Debe ser email valido"
+            required
+          />
+        </div>
+        <div className="register__input--span">
+          <InputValidator
+            name="lunchTime"
+            value={formData.name}
+            type="text"
+            classname={styles.register__input}
+            placeholder="Minutos de Almuerzo"
+            onChange={onChange}
+            errorMessage="Debe ser una hora"
             required
           />
         </div>

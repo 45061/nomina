@@ -38,6 +38,10 @@ const workedDaySchema = new Schema(
       required: true,
       type: String,
     },
+    lunchTime: {
+      required: true,
+      type: String,
+    },
     holiday: {
       required: true,
       type: Boolean,
