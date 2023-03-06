@@ -42,6 +42,10 @@ const workedDaySchema = new Schema(
       required: true,
       type: String,
     },
+    placeOfWork: {
+      require: true,
+      type: String,
+    },
     holiday: {
       required: true,
       type: Boolean,
