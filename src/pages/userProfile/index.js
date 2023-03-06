@@ -15,6 +15,7 @@ import {
   editWorkerForm,
   editWorkerDay,
   placeWorkerDay,
+  placeRecidence,
 } from "@/store/actions/modalAction";
 import WorkerForm from "@/components/WorkerForm";
 import { useMediaQuery } from "@mantine/hooks";
@@ -22,6 +23,7 @@ import WorkerDay from "@/components/WorkerDay";
 import EditWorkerForm from "@/components/EditWorkerForm";
 import EditWorkerDay from "@/components/EditWorkerDay";
 import PlaceOfWork from "@/components/PlaceOfWork";
+import RecidenceWorker from "@/components/RecidenceWorker";
 
 export default function userProfile() {
   const { user } = useSelector((state) => state.authReducer);
@@ -31,6 +33,7 @@ export default function userProfile() {
     showingEditWorker,
     showingEditWorkerDay,
     showingPlaceWorkerDay,
+    showingPlaceRecidence,
   } = useSelector((state) => state.modalReducer);
 
   const dispatch = useDispatch();
@@ -87,6 +90,7 @@ export default function userProfile() {
     showingEditWorker,
     showingEditWorkerDay,
     showingPlaceWorkerDay,
+    showingPlaceRecidence,
   ]);
 
   const handleClick = (event) => {
@@ -118,7 +122,7 @@ export default function userProfile() {
 
   const handleClick6 = (event) => {
     event.preventDefault();
-    dispatch(workerRegisterForm());
+    dispatch(placeRecidence());
   };
 
   const handleClick7 = (event) => {
@@ -364,6 +368,13 @@ export default function userProfile() {
         size={largeScreen ? "40%" : "100%"}
       >
         <PlaceOfWork />
+      </PublicModal>
+      <PublicModal
+        opened={showingPlaceRecidence}
+        onClose={() => dispatch(placeRecidence())}
+        size={largeScreen ? "40%" : "100%"}
+      >
+        <RecidenceWorker />
       </PublicModal>
     </div>
   );
