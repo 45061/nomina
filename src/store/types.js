@@ -7,6 +7,7 @@ export const WORKER_DAY_FORM = "WORKER_DAY_FORM";
 export const EDIT_WORKER_FORM = "EDIT_WORKER_FORM";
 export const EDIT_WORKER_DAY = "EDIT_WORKER_DAY";
 export const PLACE_OF_WORKER = "PLACE_OF_WORKER";
+export const PLACE_OF_RECIDENCE = "PLACE_OF_RECIDENCE";
 
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";

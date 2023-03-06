@@ -8,6 +8,7 @@ import {
   EDIT_WORKER_FORM,
   EDIT_WORKER_DAY,
   PLACE_OF_WORKER,
+  PLACE_OF_RECIDENCE,
 } from "../types";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   showingEditWorker: false,
   showingEditWorkerDay: false,
   showingPlaceWorkerDay: false,
+  showingPlaceRecidence: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -68,6 +70,11 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showingPlaceWorkerDay: !state.showingPlaceWorkerDay,
+      };
+    case PLACE_OF_RECIDENCE:
+      return {
+        ...state,
+        showingPlaceRecidence: !state.showingPlaceRecidence,
       };
 
     default:
