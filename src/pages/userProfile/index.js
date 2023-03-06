@@ -14,12 +14,14 @@ import {
   workerRegisterForm,
   editWorkerForm,
   editWorkerDay,
+  placeWorkerDay,
 } from "@/store/actions/modalAction";
 import WorkerForm from "@/components/WorkerForm";
 import { useMediaQuery } from "@mantine/hooks";
 import WorkerDay from "@/components/WorkerDay";
 import EditWorkerForm from "@/components/EditWorkerForm";
 import EditWorkerDay from "@/components/EditWorkerDay";
+import PlaceOfWork from "@/components/PlaceOfWork";
 
 export default function userProfile() {
   const { user } = useSelector((state) => state.authReducer);
@@ -28,6 +30,7 @@ export default function userProfile() {
     showingWorkerDayForm,
     showingEditWorker,
     showingEditWorkerDay,
+    showingPlaceWorkerDay,
   } = useSelector((state) => state.modalReducer);
 
   const dispatch = useDispatch();
@@ -83,6 +86,7 @@ export default function userProfile() {
     showingWorkerDayForm,
     showingEditWorker,
     showingEditWorkerDay,
+    showingPlaceWorkerDay,
   ]);
 
   const handleClick = (event) => {
@@ -105,6 +109,21 @@ export default function userProfile() {
     e.preventDefault();
     dispatch(editWorkerDay());
     setDataWorkerDay(element);
+  };
+
+  const handleClick5 = (event) => {
+    event.preventDefault();
+    dispatch(placeWorkerDay());
+  };
+
+  const handleClick6 = (event) => {
+    event.preventDefault();
+    dispatch(workerRegisterForm());
+  };
+
+  const handleClick7 = (event) => {
+    event.preventDefault();
+    dispatch(workerRegisterForm());
   };
 
   const rows = dataWorkers
@@ -221,6 +240,9 @@ export default function userProfile() {
             <Tabs.Tab value="Calendar" icon={<BrandBooking size={16} />}>
               Calendario
             </Tabs.Tab>
+            <Tabs.Tab value="Variables" icon={<BrandBooking size={16} />}>
+              Variables
+            </Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="Workers" pt="md">
@@ -291,6 +313,21 @@ export default function userProfile() {
               </Table>
             </div>
           </Tabs.Panel>
+          <Tabs.Panel value="Variables" pt="md">
+            <div className={styles.dataWorkers}>
+              <div className={styles.data__buttonNewWorker}>
+                <button onClick={handleClick5}>Crear Lugar de Trabajo</button>
+              </div>
+              <div className={styles.data__buttonNewWorker}>
+                <button onClick={handleClick6}>
+                  Crear Lugar de Recidencia
+                </button>
+              </div>
+              <div className={styles.data__buttonNewWorker}>
+                <button onClick={handleClick7}>Crear Recorrido</button>
+              </div>
+            </div>
+          </Tabs.Panel>
         </Tabs>
       </div>
       <PublicModal
@@ -320,6 +357,13 @@ export default function userProfile() {
         size={largeScreen ? "60%" : "100%"}
       >
         <EditWorkerDay data={dataWorkerDay} />
+      </PublicModal>
+      <PublicModal
+        opened={showingPlaceWorkerDay}
+        onClose={() => dispatch(placeWorkerDay())}
+        size={largeScreen ? "40%" : "100%"}
+      >
+        <PlaceOfWork />
       </PublicModal>
     </div>
   );

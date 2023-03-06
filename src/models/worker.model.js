@@ -45,6 +45,10 @@ const workerSchema = new Schema(
       required: true,
       type: String,
     },
+    placeOfResidence: {
+      required: true,
+      type: String,
+    },
     activeEmployee: {
       required: true,
       type: Boolean,
