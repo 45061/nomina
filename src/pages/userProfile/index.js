@@ -5,7 +5,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import styles from "../../styles/pages/userProfile.module.scss";
-import { Tabs, Table, Select } from "@mantine/core";
+import { Tabs, Table, Select, Divider } from "@mantine/core";
 import { BrandBooking } from "tabler-icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import PublicModal from "@/components/PublicModal";
@@ -329,6 +329,27 @@ export default function userProfile() {
               </div>
               <div className={styles.data__buttonNewWorker}>
                 <button onClick={handleClick7}>Crear Recorrido</button>
+              </div>
+            </div>
+            <Divider />
+            <div className={styles.data__workerDays}>
+              <div className={styles.tableOfWorkers}>
+                {/* {daysWorker && (
+                  <Table striped highlightOnHover>
+                    <thead>
+                      <tr>
+                        <th>Día Trabajado</th>
+                        <th>Horas Trabajadas</th>
+                        <th>Almuerzo Completo</th>
+                        <th>Horas Extras</th>
+                        <th>Horas que Debe</th>
+                        <th>Horas Nocturnas</th>
+                        <th>Día Festivo</th>
+                      </tr>
+                    </thead>
+                    <tbody>{row}</tbody>
+                  </Table>
+                )} */}
               </div>
             </div>
           </Tabs.Panel>
