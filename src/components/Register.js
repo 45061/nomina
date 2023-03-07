@@ -17,6 +17,7 @@ export default function Register() {
     numer: "",
     password: "",
     confirmPassword: "",
+    placeOfResidence: "",
     typeUser: false,
     superUser: false,
   });
