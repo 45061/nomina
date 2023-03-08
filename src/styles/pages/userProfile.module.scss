@@ -86,3 +86,19 @@
     text-align: center;
   }
 }
+
+.data__workerDays {
+  margin-top: 30px;
+  gap: 70px;
+  display: flex;
+}
+
+.tableOfPlaces {
+  margin: 0 40px;
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+  }
+}
