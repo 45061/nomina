@@ -16,6 +16,7 @@ import {
   editWorkerDay,
   placeWorkerDay,
   placeRecidence,
+  routeCost,
 } from "@/store/actions/modalAction";
 import WorkerForm from "@/components/WorkerForm";
 import { useMediaQuery } from "@mantine/hooks";
@@ -24,6 +25,7 @@ import EditWorkerForm from "@/components/EditWorkerForm";
 import EditWorkerDay from "@/components/EditWorkerDay";
 import PlaceOfWork from "@/components/PlaceOfWork";
 import RecidenceWorker from "@/components/RecidenceWorker";
+import RouteCost from "@/components/RouteCost";
 
 export default function userProfile() {
   const { user } = useSelector((state) => state.authReducer);
@@ -34,6 +36,7 @@ export default function userProfile() {
     showingEditWorkerDay,
     showingPlaceWorkerDay,
     showingPlaceRecidence,
+    showingRouteCost,
   } = useSelector((state) => state.modalReducer);
 
   const dispatch = useDispatch();
@@ -149,7 +152,7 @@ export default function userProfile() {
 
   const handleClick7 = (event) => {
     event.preventDefault();
-    dispatch(workerRegisterForm());
+    dispatch(routeCost());
   };
 
   const rows = dataWorkers
@@ -362,16 +365,16 @@ export default function userProfile() {
             </div>
           </Tabs.Panel>
           <Tabs.Panel value="Variables" pt="md">
-            <div className={styles.dataWorkers}>
-              <div className={styles.data__buttonNewWorker}>
+            <div className={styles.variables__dataWorkers}>
+              <div className={styles.dataWorkers__variables}>
                 <button onClick={handleClick5}>Crear Lugar de Trabajo</button>
               </div>
-              <div className={styles.data__buttonNewWorker}>
+              <div className={styles.dataWorkers__variables}>
                 <button onClick={handleClick6}>
                   Crear Lugar de Recidencia
                 </button>
               </div>
-              <div className={styles.data__buttonNewWorker}>
+              <div className={styles.dataWorkers__variables}>
                 <button onClick={handleClick7}>Crear Recorrido</button>
               </div>
             </div>
@@ -446,6 +449,13 @@ export default function userProfile() {
         size={largeScreen ? "40%" : "100%"}
       >
         <RecidenceWorker />
+      </PublicModal>
+      <PublicModal
+        opened={showingRouteCost}
+        onClose={() => dispatch(routeCost())}
+        size={largeScreen ? "40%" : "100%"}
+      >
+        <RouteCost />
       </PublicModal>
     </div>
   );

@@ -9,6 +9,7 @@ import {
   EDIT_WORKER_DAY,
   PLACE_OF_WORKER,
   PLACE_OF_RECIDENCE,
+  ROUTE_OF_COST,
 } from "../types";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   showingEditWorkerDay: false,
   showingPlaceWorkerDay: false,
   showingPlaceRecidence: false,
+  showingRouteCost: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -75,6 +77,11 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showingPlaceRecidence: !state.showingPlaceRecidence,
+      };
+    case ROUTE_OF_COST:
+      return {
+        ...state,
+        showingRouteCost: !state.showingRouteCost,
       };
 
     default:
