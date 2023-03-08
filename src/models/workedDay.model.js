@@ -44,7 +44,7 @@ const workedDaySchema = new Schema(
     },
     placeOfWork: {
       require: true,
-      type: String,
+      type: [{ type: Schema.Types.ObjectId, ref: "WorkPlace" }],
     },
     holiday: {
       required: true,

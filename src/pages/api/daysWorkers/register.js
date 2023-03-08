@@ -2,6 +2,7 @@ import { dbConnect } from "../../../utils/mongoose";
 
 import Worked from "../../../models/workedDay.model";
 import Worker from "../../../models/worker.model";
+import WorkPlace from "@/models/workPlace.model";
 
 import { verify } from "jsonwebtoken";
 import dayjs from "dayjs";
@@ -101,10 +102,21 @@ export default async function handler(req, res) {
           body.mustHours = "0:0";
         }
 
+        const { placeOfWork } = body;
+
+        console.log("esto es placeOfWork)", placeOfWork);
+
+        const place = await WorkPlace.findById(placeOfWork);
+
+        console.log("esto es place", place);
+
         const dayWorker = await Worked.create({
           ...body,
           userId: worker,
+          placeOfWork: place,
         });
+
+        console.log("esto es dayWorker", dayWorker);
 
         worker.workedDays.push(dayWorker);
 
@@ -130,7 +142,7 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        const daysWorker = await Worked.find();
+        const daysWorker = await Worked.find().populate("placeOfWork");
 
         return res.status(201).json({
           message: "Worker Found",

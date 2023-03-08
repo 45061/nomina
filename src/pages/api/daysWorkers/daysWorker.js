@@ -26,7 +26,12 @@ export default async function handler(req, res) {
         }
         const { id } = body;
 
-        const worker = await Worker.findById(id).populate("workedDays");
+        console.log("aca llego");
+
+        const worker = await Worker.findById(id).populate({
+          path: "workedDays",
+          populate: { path: "placeOfWork" },
+        });
 
         return res.status(201).json({
           message: "Worked Day Created",

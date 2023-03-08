@@ -76,8 +76,6 @@ export default function WorkerForm({ data }) {
     // dispatch(hiddeRegisterForm());
   };
 
-  console.log("esto es dataRecidence", data);
-
   return (
     <form className={styles.register}>
       <header className={styles.register__header}>

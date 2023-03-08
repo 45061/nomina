@@ -210,6 +210,8 @@ export default function userProfile() {
       const departureTime = `${dayjs(element.departureTime)
         .$d.toString()
         .substr(16, 9)}`;
+      const place = element.placeOfWork[0];
+      console.log("esto es place", element);
       return (
         <tr key={element._id} onClick={(e) => handleClick4(element, e)}>
           <td>{workDay}</td>
@@ -231,6 +233,8 @@ export default function userProfile() {
           <td>{element.vacations}</td>
 
           <td>{element.inability}</td>
+
+          {place && <td>{place.placeName}</td>}
         </tr>
       );
     })
@@ -420,7 +424,7 @@ export default function userProfile() {
         onClose={() => dispatch(workerDayForm())}
         size={largeScreen ? "60%" : "100%"}
       >
-        <WorkerDay idWorker={value} />
+        <WorkerDay idWorker={value} data={dataWorkPlace} />
       </PublicModal>
       <PublicModal
         opened={showingEditWorkerDay}
