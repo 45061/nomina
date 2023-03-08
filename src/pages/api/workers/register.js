@@ -64,8 +64,6 @@ export default async function handler(req, res) {
           )
           .populate("placeOfResidence");
 
-        console.log("esto es workers en back", workers[7]);
-
         return res.status(201).json({
           message: "Worker Found",
           workers,

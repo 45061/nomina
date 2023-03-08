@@ -8,7 +8,8 @@ import styles from "../styles/components/Register.module.scss";
 
 import { registerDayWorker } from "@/store/actions/workerAction";
 
-export default function WorkerForm({ idWorker }) {
+export default function WorkerForm({ idWorker, data }) {
+  console.log("esto es data", data);
   const [formData, setFormData] = useState({
     workerId: "",
     workDay: "",
@@ -23,6 +24,7 @@ export default function WorkerForm({ idWorker }) {
     holiday: "",
     vacations: "",
     inability: "",
+    placeOfWork: "",
   });
 
   const month = {
@@ -136,6 +138,19 @@ export default function WorkerForm({ idWorker }) {
           <option value="">¿El día es festivo?</option>
           <option value={true}>Si</option>
           <option value={false}>No</option>
+        </select>
+        <select
+          name="placeOfWork"
+          value={formData.name}
+          className={styles.register__input}
+          onChange={onChange}
+        >
+          <option value="">¿Lugar de Trabajo?</option>
+          {data.map((option) => (
+            <option value={option._id} key={option._id}>
+              {option.placeName}
+            </option>
+          ))}
         </select>
         <InputValidator
           name="vacations"
