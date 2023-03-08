@@ -1,6 +1,7 @@
 import { dbConnect } from "../../../utils/mongoose";
 
 import Worker from "../../../models/worker.model";
+import RecidencePlace from "@/models/recidencePlace.model";
 
 import { verify } from "jsonwebtoken";
 
@@ -24,9 +25,18 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        await Worker.create({
+        const { placeOfResidence } = req.body;
+
+        const place = await RecidencePlace.findById(placeOfResidence);
+
+        const worker = await Worker.create({
           ...req.body,
+          placeOfResidence: place,
         });
+
+        place.workers.push(worker);
+
+        await place.save({ validateBeforeSave: false });
 
         return res.status(201).json({
           message: "Worker Created",
@@ -48,9 +58,13 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        const workers = await Worker.find().select(
-          "firstName lastName _id email numer dateOfAdmission salary positionInTheCompany healthProvider pensionProvider compensationBox occupationalRiskInsurer activeEmployee"
-        );
+        const workers = await Worker.find()
+          .select(
+            "firstName lastName _id email numer dateOfAdmission salary positionInTheCompany healthProvider pensionProvider compensationBox occupationalRiskInsurer activeEmployee placeOfResidence"
+          )
+          .populate("placeOfResidence");
+
+        console.log("esto es workers en back", workers[7]);
 
         return res.status(201).json({
           message: "Worker Found",

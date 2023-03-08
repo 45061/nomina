@@ -177,29 +177,23 @@ export default function userProfile() {
       const dateOfAdmission = `${dayjs(element.dateOfAdmission)
         .$d.toString()
         .substr(4, 11)}`;
+      const place = element.placeOfResidence[0];
+
       return (
         <tr key={element._id} onClick={(e) => handleClick3(element, e)}>
           <td>{element.firstName}</td>
           <td>{element.lastName}</td>
           <td>{element.email}</td>
-
           <td>{element.numer}</td>
-
           <td>{dateOfAdmission}</td>
-
           <td>$ {dinerCopAdmin}</td>
-
           <td>{element.positionInTheCompany}</td>
-
           <td>{element.healthProvider} </td>
-
           <td>{element.pensionProvider}</td>
-
           <td>{element.compensationBox}</td>
-
           <td>{element.occupationalRiskInsurer}</td>
-
           <td>{element.activeEmployee ? <p>Activo</p> : <p>Retirado</p>}</td>
+          {place && <td>{place.placeName}</td>}
         </tr>
       );
     })
@@ -412,7 +406,7 @@ export default function userProfile() {
         onClose={() => dispatch(workerRegisterForm())}
         size={largeScreen ? "60%" : "100%"}
       >
-        <WorkerForm />
+        <WorkerForm data={dataRecidence} />
       </PublicModal>
       <PublicModal
         opened={showingEditWorker}

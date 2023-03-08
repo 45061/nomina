@@ -46,6 +46,7 @@ const workerSchema = new Schema(
       type: String,
     },
     placeOfResidence: {
+      require: true,
       type: [{ type: Schema.Types.ObjectId, ref: "RecidencePlace" }],
     },
     activeEmployee: {
