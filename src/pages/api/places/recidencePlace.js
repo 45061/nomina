@@ -23,9 +23,8 @@ export default async function handler(req, res) {
         if (!typeUser) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
-        await RecidencePlace.create({
-          ...body,
-        });
+
+        await RecidencePlace.create(body);
 
         return res.status(201).json({
           message: "WorkPlace Created",
