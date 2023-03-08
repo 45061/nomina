@@ -44,6 +44,8 @@ export default function userProfile() {
   const [value, setValue] = useState(null);
   const [dataWorker, setDataWorker] = useState({});
   const [dataWorkerDay, setDataWorkerDay] = useState({});
+  const [dataRecidence, setDataRecidence] = useState([]);
+  const [dataWorkPlace, setDataWorkPlace] = useState([]);
 
   const week = {
     0: "Dom",
@@ -83,6 +85,26 @@ export default function userProfile() {
       }
     };
     dataDaysWorker();
+
+    const fetchRecidencePlace = async () => {
+      try {
+        const response = await axios.get("/api/places/recidencePlace");
+        setDataRecidence(response.data.recidencePlace);
+      } catch (error) {
+        console.log("hay un error en fetchRecidencePlace, no entra");
+      }
+    };
+    fetchRecidencePlace();
+
+    const fetchWorkPlace = async () => {
+      try {
+        const response = await axios.get("/api/places/workPlace");
+        setDataWorkPlace(response.data.workPlace);
+      } catch (error) {
+        console.log("hay un error en fetchWorkPlace, no entra");
+      }
+    };
+    fetchWorkPlace();
   }, [
     showingWorkerRegisterForm,
     value,
@@ -154,7 +176,7 @@ export default function userProfile() {
       const status = reserveStatus();
       const dateOfAdmission = `${dayjs(element.dateOfAdmission)
         .$d.toString()
-        .substr(0, 15)}`;
+        .substr(4, 11)}`;
       return (
         <tr key={element._id} onClick={(e) => handleClick3(element, e)}>
           <td>{element.firstName}</td>
@@ -220,6 +242,28 @@ export default function userProfile() {
     })
     .reverse();
 
+  const RecidencePlaces = dataRecidence
+
+    ?.map((element) => {
+      return (
+        <tr key={element._id}>
+          <td>{element.placeName}</td>
+        </tr>
+      );
+    })
+    .reverse();
+
+  const WorksPlaces = dataWorkPlace
+
+    ?.map((element) => {
+      return (
+        <tr key={element._id}>
+          <td>{element.placeName}</td>
+        </tr>
+      );
+    })
+    .reverse();
+
   return (
     <div className={styles.container}>
       <div className={styles.container__data}>
@@ -272,6 +316,7 @@ export default function userProfile() {
                     <th>Caja Compensación</th>
                     <th>ARL</th>
                     <th>Estado</th>
+                    <th>Recidencia</th>
                   </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -311,6 +356,7 @@ export default function userProfile() {
                     <th>Día Festivo</th>
                     <th>En Vacaciones</th>
                     <th>Incapacitado</th>
+                    <th>Lugar de Trabajo</th>
                   </tr>
                 </thead>
                 <tbody>{rows2}</tbody>
@@ -333,23 +379,29 @@ export default function userProfile() {
             </div>
             <Divider />
             <div className={styles.data__workerDays}>
-              <div className={styles.tableOfWorkers}>
-                {/* {daysWorker && (
+              <div className={styles.tableOfPlaces}>
+                {dataRecidence && (
                   <Table striped highlightOnHover>
                     <thead>
                       <tr>
-                        <th>Día Trabajado</th>
-                        <th>Horas Trabajadas</th>
-                        <th>Almuerzo Completo</th>
-                        <th>Horas Extras</th>
-                        <th>Horas que Debe</th>
-                        <th>Horas Nocturnas</th>
-                        <th>Día Festivo</th>
+                        <th>Lugares de Recidencia</th>
                       </tr>
                     </thead>
-                    <tbody>{row}</tbody>
+                    <tbody>{RecidencePlaces}</tbody>
                   </Table>
-                )} */}
+                )}
+              </div>
+              <div className={styles.tableOfPlaces}>
+                {dataWorkPlace && (
+                  <Table striped highlightOnHover>
+                    <thead>
+                      <tr>
+                        <th>Lugares de Trabajo</th>
+                      </tr>
+                    </thead>
+                    <tbody>{WorksPlaces}</tbody>
+                  </Table>
+                )}
               </div>
             </div>
           </Tabs.Panel>
