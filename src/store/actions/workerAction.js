@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import {
   editWorkerDay,
   editWorkerForm,
+  placeRecidence,
+  placeWorkerDay,
   workerDayForm,
   workerRegisterForm,
 } from "./modalAction";
@@ -96,5 +98,37 @@ export const filterDayWorker = (body) => async (dispatch) => {
   } catch (error) {
     console.log("hay un error en filter, no entra");
     toast.error("Error en el filtrado");
+  }
+};
+
+export const residencePlaceWorker = (body) => async (dispatch) => {
+  try {
+    const response = await axios.post("/api/places/recidencePlace", body);
+
+    const { status } = response;
+
+    if (status === 201) {
+      dispatch(placeRecidence());
+      toast.success("Lugar creado con exito");
+    }
+  } catch (error) {
+    console.log("hay un error en ResidencePlaceWorker, no entra");
+    toast.error("Error en el en la creación");
+  }
+};
+
+export const workPlaceWorker = (body) => async (dispatch) => {
+  try {
+    const response = await axios.post("/api/places/workPlace", body);
+
+    const { status } = response;
+
+    if (status === 201) {
+      dispatch(placeWorkerDay());
+      toast.success("Lugar creado con exito");
+    }
+  } catch (error) {
+    console.log("hay un error en  workPlaceWorker, no entra");
+    toast.error("Error en el en la creación");
   }
 };

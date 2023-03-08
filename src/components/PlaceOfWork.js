@@ -5,12 +5,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
-
-import { registerDayWorker } from "@/store/actions/workerAction";
+import { workPlaceWorker } from "@/store/actions/workerAction";
 
 export default function PlaceOfWork() {
   const [formData, setFormData] = useState({
-    place: "",
+    placeName: "",
   });
 
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ export default function PlaceOfWork() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // dispatch(registerDayWorker(formData));
+    dispatch(workPlaceWorker(formData));
   };
 
   return (
@@ -41,7 +40,7 @@ export default function PlaceOfWork() {
         <label>
           Lugar de Trabajo:
           <InputValidator
-            name="place"
+            name="placeName"
             value={formData.name}
             type="text"
             classname={styles.register__input}

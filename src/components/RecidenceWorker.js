@@ -6,11 +6,11 @@ import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { registerDayWorker } from "@/store/actions/workerAction";
+import { residencePlaceWorker } from "@/store/actions/workerAction";
 
 export default function RecidenceWorker() {
   const [formData, setFormData] = useState({
-    place: "",
+    placeName: "",
   });
 
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export default function RecidenceWorker() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // dispatch(registerDayWorker(formData));
+    dispatch(residencePlaceWorker(formData));
   };
 
   return (
@@ -41,7 +41,7 @@ export default function RecidenceWorker() {
         <label>
           Lugar de Recidencia:
           <InputValidator
-            name="place"
+            name="placeName"
             value={formData.name}
             type="text"
             classname={styles.register__input}
