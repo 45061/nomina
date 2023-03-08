@@ -8,6 +8,7 @@ export const EDIT_WORKER_FORM = "EDIT_WORKER_FORM";
 export const EDIT_WORKER_DAY = "EDIT_WORKER_DAY";
 export const PLACE_OF_WORKER = "PLACE_OF_WORKER";
 export const PLACE_OF_RECIDENCE = "PLACE_OF_RECIDENCE";
+export const ROUTE_OF_COST = "ROUTE_OF_COST";
 
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";

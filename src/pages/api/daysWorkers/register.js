@@ -142,7 +142,7 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        const daysWorker = await Worked.find().populate("placeOfWork");
+        const daysWorker = await Worked.find();
 
         return res.status(201).json({
           message: "Worker Found",
