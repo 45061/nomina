@@ -26,8 +26,6 @@ export default async function handler(req, res) {
         }
         const { id } = body;
 
-        console.log("aca llego");
-
         const worker = await Worker.findById(id).populate({
           path: "workedDays",
           populate: { path: "placeOfWork" },

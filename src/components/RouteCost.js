@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import "react-datepicker/dist/react-datepicker.css";
 import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";

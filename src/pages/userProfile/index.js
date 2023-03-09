@@ -49,6 +49,7 @@ export default function userProfile() {
   const [dataWorkerDay, setDataWorkerDay] = useState({});
   const [dataRecidence, setDataRecidence] = useState([]);
   const [dataWorkPlace, setDataWorkPlace] = useState([]);
+  const [dataRoutes, setDataRoutes] = useState([]);
 
   const week = {
     0: "Dom",
@@ -108,6 +109,16 @@ export default function userProfile() {
       }
     };
     fetchWorkPlace();
+
+    const fetchRoutes = async () => {
+      try {
+        const response = await axios.get("/api/routesCost");
+        setDataRoutes(response.data.routes);
+      } catch (error) {
+        console.log("hay un error en fetchWorkPlace, no entra");
+      }
+    };
+    fetchRoutes();
   }, [
     showingWorkerRegisterForm,
     value,
@@ -116,6 +127,7 @@ export default function userProfile() {
     showingEditWorkerDay,
     showingPlaceWorkerDay,
     showingPlaceRecidence,
+    showingRouteCost,
   ]);
 
   const handleClick = (event) => {
@@ -265,6 +277,24 @@ export default function userProfile() {
     })
     .reverse();
 
+  const RoutesSubsidy = dataRoutes
+
+    ?.map((element) => {
+      const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
+        element.subsidy
+      );
+      return (
+        <tr key={element._id}>
+          <td>{element.firstPlace[0].placeName}</td>
+          <td>{element.secondPlace[0].placeName}</td>
+          <td>$ {dinerCopAdmin}</td>
+        </tr>
+      );
+    })
+    .reverse();
+
+  console.log("esto es dataRoutes", dataRoutes);
+
   return (
     <div className={styles.container}>
       <div className={styles.container__data}>
@@ -367,15 +397,15 @@ export default function userProfile() {
           <Tabs.Panel value="Variables" pt="md">
             <div className={styles.variables__dataWorkers}>
               <div className={styles.dataWorkers__variables}>
-                <button onClick={handleClick5}>Crear Lugar de Trabajo</button>
-              </div>
-              <div className={styles.dataWorkers__variables}>
                 <button onClick={handleClick6}>
                   Crear Lugar de Recidencia
                 </button>
               </div>
               <div className={styles.dataWorkers__variables}>
                 <button onClick={handleClick7}>Crear Recorrido</button>
+              </div>
+              <div className={styles.dataWorkers__variables}>
+                <button onClick={handleClick5}>Crear Lugar de Trabajo</button>
               </div>
             </div>
             <Divider />
@@ -389,6 +419,21 @@ export default function userProfile() {
                       </tr>
                     </thead>
                     <tbody>{RecidencePlaces}</tbody>
+                  </Table>
+                )}
+              </div>
+
+              <div className={styles.tableOfRoutes}>
+                {dataWorkPlace && (
+                  <Table striped highlightOnHover>
+                    <thead>
+                      <tr>
+                        <th>Lugares de Recidencia</th>
+                        <th>Lugares de Trabajo</th>
+                        <th>Subsidio</th>
+                      </tr>
+                    </thead>
+                    <tbody>{RoutesSubsidy}</tbody>
                   </Table>
                 )}
               </div>

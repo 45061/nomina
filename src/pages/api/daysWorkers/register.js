@@ -104,19 +104,13 @@ export default async function handler(req, res) {
 
         const { placeOfWork } = body;
 
-        console.log("esto es placeOfWork)", placeOfWork);
-
         const place = await WorkPlace.findById(placeOfWork);
-
-        console.log("esto es place", place);
 
         const dayWorker = await Worked.create({
           ...body,
           userId: worker,
           placeOfWork: place,
         });
-
-        console.log("esto es dayWorker", dayWorker);
 
         worker.workedDays.push(dayWorker);
 
