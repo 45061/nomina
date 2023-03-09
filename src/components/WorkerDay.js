@@ -9,7 +9,6 @@ import styles from "../styles/components/Register.module.scss";
 import { registerDayWorker } from "@/store/actions/workerAction";
 
 export default function WorkerForm({ idWorker, data }) {
-  console.log("esto es data", data);
   const [formData, setFormData] = useState({
     workerId: "",
     workDay: "",
