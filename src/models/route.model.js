@@ -2,7 +2,7 @@ const { Schema, model, models } = require("mongoose");
 
 const routeWorkSchema = new Schema(
   {
-    firsPlace: {
+    firstPlace: {
       type: [{ type: Schema.Types.ObjectId, ref: "RecidencePlace" }],
     },
     secondPlace: {

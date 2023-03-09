@@ -455,7 +455,7 @@ export default function userProfile() {
         onClose={() => dispatch(routeCost())}
         size={largeScreen ? "40%" : "100%"}
       >
-        <RouteCost />
+        <RouteCost workPlace={dataWorkPlace} recidence={dataRecidence} />
       </PublicModal>
     </div>
   );
