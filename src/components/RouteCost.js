@@ -6,11 +6,13 @@ import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { residencePlaceWorker } from "@/store/actions/workerAction";
+import { routeSubsidy } from "@/store/actions/workerAction";
 
-export default function RouteCost() {
+export default function RouteCost({ workPlace, recidence }) {
   const [formData, setFormData] = useState({
-    placeName: "",
+    firstPlace: "",
+    secondPlace: "",
+    subsidy: "",
   });
 
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ export default function RouteCost() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    dispatch(residencePlaceWorker(formData));
+    dispatch(routeSubsidy(formData));
   };
 
   return (
@@ -40,32 +42,40 @@ export default function RouteCost() {
       <div className={styles.register__content}>
         <label>
           Lugar de Recidencia:
-          <InputValidator
-            name="placeName"
+          <select
+            name="firstPlace"
             value={formData.name}
-            type="text"
-            classname={styles.register__input}
+            className={styles.register__input}
             onChange={onChange}
-            errorMessage="Nombre no debe estar vacio"
-            required
-          />
+          >
+            <option value="">¿Lugar de Recidencia?</option>
+            {recidence.map((option) => (
+              <option value={option._id} key={option._id}>
+                {option.placeName}
+              </option>
+            ))}
+          </select>
         </label>
         <label>
           Lugar de Trabajo:
-          <InputValidator
-            name="placeName"
+          <select
+            name="secondPlace"
             value={formData.name}
-            type="text"
-            classname={styles.register__input}
+            className={styles.register__input}
             onChange={onChange}
-            errorMessage="Nombre no debe estar vacio"
-            required
-          />
+          >
+            <option value="">¿Lugar de Trabajo?</option>
+            {workPlace.map((option) => (
+              <option value={option._id} key={option._id}>
+                {option.placeName}
+              </option>
+            ))}
+          </select>
         </label>
         <label>
           Valor subcidio:
           <InputValidator
-            name="placeName"
+            name="subsidy"
             value={formData.name}
             type="number"
             classname={styles.register__input}

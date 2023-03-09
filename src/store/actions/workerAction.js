@@ -5,6 +5,7 @@ import {
   editWorkerForm,
   placeRecidence,
   placeWorkerDay,
+  routeCost,
   workerDayForm,
   workerRegisterForm,
 } from "./modalAction";
@@ -126,6 +127,22 @@ export const workPlaceWorker = (body) => async (dispatch) => {
     if (status === 201) {
       dispatch(placeWorkerDay());
       toast.success("Lugar creado con exito");
+    }
+  } catch (error) {
+    console.log("hay un error en  workPlaceWorker, no entra");
+    toast.error("Error en el en la creación");
+  }
+};
+
+export const routeSubsidy = (body) => async (dispatch) => {
+  try {
+    const response = await axios.post("/api/routesCost", body);
+
+    const { status } = response;
+
+    if (status === 201) {
+      dispatch(routeCost());
+      toast.success("Ruta creada con exito");
     }
   } catch (error) {
     console.log("hay un error en  workPlaceWorker, no entra");
