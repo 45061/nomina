@@ -7,7 +7,7 @@ import styles from "../styles/components/Register.module.scss";
 
 import { routeSubsidy } from "@/store/actions/workerAction";
 
-export default function RouteCost({ workPlace, recidence }) {
+export default function EditRouteCost({ workPlace, recidence }) {
   const [formData, setFormData] = useState({
     firstPlace: "",
     secondPlace: "",
@@ -34,7 +34,7 @@ export default function RouteCost({ workPlace, recidence }) {
         <div className={styles.register__brand}>
           <img src="/nominaApp.svg" alt="logoNomina" />
         </div>
-        <p className={styles.register__title}> Crear Recoriido </p>
+        <p className={styles.register__title}> Editar Recorrido </p>
       </header>
 
       <div className={styles.register__content}>
