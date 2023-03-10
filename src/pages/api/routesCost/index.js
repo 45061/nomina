@@ -44,6 +44,38 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: error.message });
       }
 
+    case "PUT":
+      try {
+        const user = verify(
+          myTokenName,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
+
+        const { typeUser } = user;
+
+        if (!typeUser) {
+          return res.status(400).json({ msg: "this user is not authorized" });
+        }
+
+        const { firstPlace, secondPlace, id, subsidy } = body;
+
+        const recidence = await RecidencePlace.findById(firstPlace);
+        const work = await WorkPlace.findById(secondPlace);
+        const route = await RouteWork.findById(id);
+
+        route.firstPlace = recidence;
+        route.secondPlace = work;
+        route.subsidy = subsidy;
+
+        await route.save({ validateBeforeSave: false });
+
+        return res.status(201).json({
+          message: "RouteWork Edited",
+        });
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+
     case "GET":
       try {
         const user = verify(

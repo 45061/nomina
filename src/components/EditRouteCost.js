@@ -5,13 +5,14 @@ import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
 
-import { routeSubsidy } from "@/store/actions/workerAction";
+import { editRouteSubsidy } from "@/store/actions/workerAction";
 
-export default function EditRouteCost({ workPlace, recidence }) {
+export default function EditRouteCost({ workPlace, recidence, route }) {
   const [formData, setFormData] = useState({
-    firstPlace: "",
-    secondPlace: "",
-    subsidy: "",
+    firstPlace: route.firstPlace[0]._id,
+    secondPlace: route.secondPlace[0]._id,
+    subsidy: route.subsidy,
+    id: route._id,
   });
 
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export default function EditRouteCost({ workPlace, recidence }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(routeSubsidy(formData));
+    dispatch(editRouteSubsidy(formData));
   };
 
   return (
@@ -46,7 +47,9 @@ export default function EditRouteCost({ workPlace, recidence }) {
             className={styles.register__input}
             onChange={onChange}
           >
-            <option value="">¿Lugar de Recidencia?</option>
+            <option value={route.firstPlace[0]._id}>
+              {route.firstPlace[0].placeName}
+            </option>
             {recidence.map((option) => (
               <option value={option._id} key={option._id}>
                 {option.placeName}
@@ -62,7 +65,9 @@ export default function EditRouteCost({ workPlace, recidence }) {
             className={styles.register__input}
             onChange={onChange}
           >
-            <option value="">¿Lugar de Trabajo?</option>
+            <option value={route.secondPlace[0]._id}>
+              {route.secondPlace[0].placeName}
+            </option>
             {workPlace.map((option) => (
               <option value={option._id} key={option._id}>
                 {option.placeName}
@@ -80,6 +85,7 @@ export default function EditRouteCost({ workPlace, recidence }) {
             onChange={onChange}
             errorMessage="Nombre no debe estar vacio"
             required
+            placeholder={route.subsidy}
           />
         </label>
       </div>
@@ -89,7 +95,7 @@ export default function EditRouteCost({ workPlace, recidence }) {
           type="submit"
           onClick={handleSubmit}
         >
-          Registrar Recorrido
+          Editar Recorrido
         </button>
       </div>
     </form>
