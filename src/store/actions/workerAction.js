@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
+  editRouteCost,
   editWorkerDay,
   editWorkerForm,
   placeRecidence,
@@ -145,7 +146,24 @@ export const routeSubsidy = (body) => async (dispatch) => {
       toast.success("Ruta creada con exito");
     }
   } catch (error) {
-    console.log("hay un error en  workPlaceWorker, no entra");
+    console.log("hay un error en  routeSubsidy, no entra");
+    toast.error("Error en el en la creación");
+  }
+};
+
+export const editRouteSubsidy = (body) => async (dispatch) => {
+  try {
+    const response = await axios.put("/api/routesCost", body);
+    console.log("esto es response", response);
+
+    const { status } = response;
+
+    if (status === 201) {
+      dispatch(editRouteCost());
+      toast.success("Ruta editada con exito");
+    }
+  } catch (error) {
+    console.log("hay un error en  editRouteSubsidy, no entra");
     toast.error("Error en el en la creación");
   }
 };
