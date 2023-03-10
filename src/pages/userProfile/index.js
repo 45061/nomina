@@ -17,6 +17,7 @@ import {
   placeWorkerDay,
   placeRecidence,
   routeCost,
+  editRouteCost,
 } from "@/store/actions/modalAction";
 import WorkerForm from "@/components/WorkerForm";
 import { useMediaQuery } from "@mantine/hooks";
@@ -26,6 +27,7 @@ import EditWorkerDay from "@/components/EditWorkerDay";
 import PlaceOfWork from "@/components/PlaceOfWork";
 import RecidenceWorker from "@/components/RecidenceWorker";
 import RouteCost from "@/components/RouteCost";
+import EditRouteCost from "@/components/EditRouteCost";
 
 export default function userProfile() {
   const { user } = useSelector((state) => state.authReducer);
@@ -37,6 +39,7 @@ export default function userProfile() {
     showingPlaceWorkerDay,
     showingPlaceRecidence,
     showingRouteCost,
+    showingEditRouteCost,
   } = useSelector((state) => state.modalReducer);
 
   const dispatch = useDispatch();
@@ -50,6 +53,7 @@ export default function userProfile() {
   const [dataRecidence, setDataRecidence] = useState([]);
   const [dataWorkPlace, setDataWorkPlace] = useState([]);
   const [dataRoutes, setDataRoutes] = useState([]);
+  const [dataRoute, setDataRoute] = useState([]);
 
   const week = {
     0: "Dom",
@@ -128,6 +132,7 @@ export default function userProfile() {
     showingPlaceWorkerDay,
     showingPlaceRecidence,
     showingRouteCost,
+    showingEditRouteCost,
   ]);
 
   const handleClick = (event) => {
@@ -165,6 +170,12 @@ export default function userProfile() {
   const handleClick7 = (event) => {
     event.preventDefault();
     dispatch(routeCost());
+  };
+
+  const handleClick8 = (element, e) => {
+    e.preventDefault();
+    dispatch(editRouteCost());
+    setDataRoute(element);
   };
 
   const rows = dataWorkers
@@ -284,7 +295,7 @@ export default function userProfile() {
         element.subsidy
       );
       return (
-        <tr key={element._id}>
+        <tr key={element._id} onClick={(e) => handleClick8(element, e)}>
           <td>{element.firstPlace[0].placeName}</td>
           <td>{element.secondPlace[0].placeName}</td>
           <td>$ {dinerCopAdmin}</td>
@@ -501,6 +512,17 @@ export default function userProfile() {
         size={largeScreen ? "40%" : "100%"}
       >
         <RouteCost workPlace={dataWorkPlace} recidence={dataRecidence} />
+      </PublicModal>
+      <PublicModal
+        opened={showingEditRouteCost}
+        onClose={() => dispatch(editRouteCost())}
+        size={largeScreen ? "40%" : "100%"}
+      >
+        <EditRouteCost
+          workPlace={dataWorkPlace}
+          recidence={dataRecidence}
+          route={dataRoute}
+        />
       </PublicModal>
     </div>
   );
