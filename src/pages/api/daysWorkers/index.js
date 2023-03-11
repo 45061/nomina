@@ -28,7 +28,12 @@ export default async function handler(req, res) {
 
         const { workerId, firstDate, secondDate } = body;
 
-        const worker = await Worker.findById(workerId).populate("workedDays");
+        const worker = await Worker.findById(workerId)
+          .populate("placeOfResidence", "_id placeName")
+          .populate({
+            path: "workedDays",
+            populate: { path: "placeOfWork" },
+          });
 
         const listDaysWork = worker.workedDays
           .filter(
@@ -49,6 +54,7 @@ export default async function handler(req, res) {
           salary: worker.salary,
           positionInTheCompany: worker.positionInTheCompany,
           dateOfAdmission: worker.dateOfAdmission,
+          recidence: worker.placeOfResidence,
         };
 
         return res.status(201).json({

@@ -61,6 +61,7 @@ export default function management() {
 
   const row = daysWorker
     ?.map((element) => {
+      console.log("esto es element", element);
       const workDay = `${dayjs(element.workDay).$d.toString().substr(3, 13)}
       ${week[dayjs(element.workDay).$W]}`;
 
@@ -79,6 +80,10 @@ export default function management() {
           <td>{element.nightHours}</td>
 
           <td>{element.holiday ? <p>Si</p> : <p>No</p>}</td>
+
+          {element.placeOfWork[0] && (
+            <td>{element.placeOfWork[0].placeName}</td>
+          )}
         </tr>
       );
     })
@@ -175,6 +180,7 @@ export default function management() {
     )
   );
 
+  console.log("este es worker", worker);
   return (
     <div className={styles.container}>
       <div className={styles.container__data}>
@@ -273,6 +279,7 @@ export default function management() {
                         <th>Horas que Debe</th>
                         <th>Horas Nocturnas</th>
                         <th>Día Festivo</th>
+                        <th>Trabajo en:</th>
                       </tr>
                     </thead>
                     <tbody>{row}</tbody>
