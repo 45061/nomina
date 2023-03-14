@@ -10,6 +10,7 @@ export const PLACE_OF_WORKER = "PLACE_OF_WORKER";
 export const PLACE_OF_RECIDENCE = "PLACE_OF_RECIDENCE";
 export const ROUTE_OF_COST = "ROUTE_OF_COST";
 export const EDIT_ROUTE_OF_COST = "EDIT_ROUTE_OF_COST";
+export const REPORT_FORM = "REPORT_FORM";
 
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";

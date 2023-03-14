@@ -2,6 +2,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 import axios from "axios";
 import dayjs from "dayjs";
 
@@ -9,11 +10,15 @@ import styles from "../../styles/pages/management.module.scss";
 import { Table, Select, Divider } from "@mantine/core";
 import InputValidator from "@/components/ImputValidator";
 import { filterDayWorker } from "@/store/actions/workerAction";
+import PublicModal from "@/components/PublicModal";
 
 export default function management() {
   const { user } = useSelector((state) => state.authReducer);
   const { worker, daysWorker } = useSelector((state) => state.workerReducer);
+  const { showingReportForm } = useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
+
+  const largeScreen = useMediaQuery("(min-width: 1024px)");
 
   const [dataWorkers, setDataWorkes] = useState([]);
   const [value, setValue] = useState(null);
@@ -381,6 +386,11 @@ export default function management() {
           </>
         )}
       </div>
+      <PublicModal
+        opened={showingReportForm}
+        onClose={() => dispatch(reportFor())}
+        size={largeScreen ? "40%" : "100%"}
+      ></PublicModal>
     </div>
   );
 }
