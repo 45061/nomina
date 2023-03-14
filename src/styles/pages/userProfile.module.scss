@@ -46,6 +46,32 @@
   justify-content: center;
 }
 
+.dataWorkers__variables {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    background-color: transparent;
+    border: none;
+    font-family: Oswald;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    color: #9b0ad0;
+    font-size: 24px;
+    direction: ltr;
+    cursor: pointer;
+  }
+}
+
+.variables__dataWorkers {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
 .dataWorkers {
   display: flex;
   align-items: center;
@@ -79,6 +105,30 @@
 }
 
 .tableOfWorkers {
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+  }
+}
+
+.data__workerDays {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+}
+
+.tableOfPlaces {
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+  }
+}
+
+.tableOfRoutes {
   th {
     text-align: center;
   }

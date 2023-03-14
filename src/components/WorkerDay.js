@@ -8,7 +8,7 @@ import styles from "../styles/components/Register.module.scss";
 
 import { registerDayWorker } from "@/store/actions/workerAction";
 
-export default function WorkerForm({ idWorker }) {
+export default function WorkerForm({ idWorker, data }) {
   const [formData, setFormData] = useState({
     workerId: "",
     workDay: "",
@@ -19,9 +19,11 @@ export default function WorkerForm({ idWorker }) {
     extraHours: "",
     mustHours: "",
     nightHours: "",
+    lunchTime: "",
     holiday: "",
     vacations: "",
     inability: "",
+    placeOfWork: "",
   });
 
   const month = {
@@ -114,6 +116,18 @@ export default function WorkerForm({ idWorker }) {
             required
           />
         </div>
+        <div className="register__input--span">
+          <InputValidator
+            name="lunchTime"
+            value={formData.name}
+            type="text"
+            classname={styles.register__input}
+            placeholder="Minutos de Almuerzo"
+            onChange={onChange}
+            errorMessage="Debe ser una hora"
+            required
+          />
+        </div>
         <select
           name="holiday"
           value={formData.name}
@@ -123,6 +137,19 @@ export default function WorkerForm({ idWorker }) {
           <option value="">¿El día es festivo?</option>
           <option value={true}>Si</option>
           <option value={false}>No</option>
+        </select>
+        <select
+          name="placeOfWork"
+          value={formData.name}
+          className={styles.register__input}
+          onChange={onChange}
+        >
+          <option value="">¿Lugar de Trabajo?</option>
+          {data.map((option) => (
+            <option value={option._id} key={option._id}>
+              {option.placeName}
+            </option>
+          ))}
         </select>
         <InputValidator
           name="vacations"

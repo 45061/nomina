@@ -1,7 +1,6 @@
 import { dbConnect } from "../../../utils/mongoose";
 
-import Worked from "../../../models/workedDay.model";
-import Worker from "../../../models/worker.model";
+import RecidencePlace from "../../../models/recidencePlace.model";
 
 import { verify } from "jsonwebtoken";
 
@@ -24,16 +23,11 @@ export default async function handler(req, res) {
         if (!typeUser) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
-        const { id } = body;
 
-        const worker = await Worker.findById(id).populate({
-          path: "workedDays",
-          populate: { path: "placeOfWork" },
-        });
+        await RecidencePlace.create(body);
 
         return res.status(201).json({
-          message: "Worked Day Created",
-          worker,
+          message: "WorkPlace Created",
         });
       } catch (error) {
         return res.status(400).json({ error: error.message });
@@ -52,11 +46,11 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        const daysWorker = await Worked.find();
+        const recidencePlace = await RecidencePlace.find();
 
         return res.status(201).json({
-          message: "Worker Found",
-          daysWorker,
+          message: "RecidencePlace Found",
+          recidencePlace,
         });
       } catch (error) {
         return res.status(400).json({ error: error.message });

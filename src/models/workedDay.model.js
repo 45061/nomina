@@ -38,6 +38,14 @@ const workedDaySchema = new Schema(
       required: true,
       type: String,
     },
+    lunchTime: {
+      required: true,
+      type: String,
+    },
+    placeOfWork: {
+      require: true,
+      type: [{ type: Schema.Types.ObjectId, ref: "WorkPlace" }],
+    },
     holiday: {
       required: true,
       type: Boolean,

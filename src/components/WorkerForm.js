@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Calendar } from "@mantine/dates";
 import dayjs from "dayjs";
@@ -13,7 +13,7 @@ import styles from "../styles/components/Register.module.scss";
 
 import { registerWorker } from "@/store/actions/workerAction";
 
-export default function WorkerForm() {
+export default function WorkerForm({ data }) {
   const [value, setValue] = useState(false);
   const [opened, setOpened] = useState(false);
   const dataDate = dayjs(value);
@@ -30,6 +30,7 @@ export default function WorkerForm() {
     pensionProvider: "",
     compensationBox: "",
     occupationalRiskInsurer: "",
+    placeOfResidence: "",
     activeEmployee: true,
   });
 
@@ -59,7 +60,6 @@ export default function WorkerForm() {
   };
 
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   const onChange = (event) => {
     setFormData({
@@ -189,7 +189,19 @@ export default function WorkerForm() {
           errorMessage="No debe estar vacio"
           required
         />
-
+        <select
+          name="placeOfResidence"
+          value={formData.name}
+          className={styles.register__input}
+          onChange={onChange}
+        >
+          <option value="">¿Lugar de Recidencia?</option>
+          {data.map((option) => (
+            <option value={option._id} key={option._id}>
+              {option.placeName}
+            </option>
+          ))}
+        </select>
         <Popover
           style={{ marginTop: 5, borderRadius: 30 }}
           sx={(theme) => ({

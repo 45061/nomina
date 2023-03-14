@@ -17,7 +17,7 @@ export default function management() {
 
   const [dataWorkers, setDataWorkes] = useState([]);
   const [value, setValue] = useState(null);
-
+  const [dataRoute, setDataRoute] = useState([]);
   const handleClick = (event) => {
     event.preventDefault();
     formData.workerId = value;
@@ -47,6 +47,13 @@ export default function management() {
       }
     };
     fetchWorker();
+
+    const fetchRoutes = async () => {
+      const response = await axios.get("/api/routesCost");
+      setDataRoute(response.data.routes);
+    };
+
+    fetchRoutes();
   }, [worker, daysWorker]);
 
   const week = {
@@ -79,6 +86,10 @@ export default function management() {
           <td>{element.nightHours}</td>
 
           <td>{element.holiday ? <p>Si</p> : <p>No</p>}</td>
+
+          {element.placeOfWork[0] && (
+            <td>{element.placeOfWork[0].placeName}</td>
+          )}
         </tr>
       );
     })
@@ -153,6 +164,24 @@ export default function management() {
       1.75
   );
 
+  const arrayCostRoutes = [];
+  if (worker !== false) {
+    dataRoute
+      .filter((route) => route.firstPlace[0]._id === worker.recidence[0]._id)
+      .map((place) => {
+        daysWorker.map((day) => {
+          if (day.placeOfWork[0]._id === place.secondPlace[0]._id) {
+            arrayCostRoutes.push(place.subsidy);
+          }
+        });
+      });
+  }
+
+  const totalCostRoutes = arrayCostRoutes.reduce(
+    (total, value) => total + value,
+    0
+  );
+
   const total = new Intl.NumberFormat("es-MX").format(
     Math.round(
       (((arrayHoursHoliday + totalMinutsHoliday / 60) *
@@ -171,7 +200,8 @@ export default function management() {
           arrayHoursNight +
           (totalMinuts - totalMinutsExtra) / 60) *
           parseInt(worker.salary)) /
-          240
+          240 +
+        parseInt(totalCostRoutes)
     )
   );
 
@@ -273,6 +303,7 @@ export default function management() {
                         <th>Horas que Debe</th>
                         <th>Horas Nocturnas</th>
                         <th>Día Festivo</th>
+                        <th>Trabajo en:</th>
                       </tr>
                     </thead>
                     <tbody>{row}</tbody>
@@ -310,6 +341,7 @@ export default function management() {
                         <th>Horas Extras Totales</th>
                         <th>Horas Nocturnas</th>
                         <th>Horas Festivas</th>
+                        <th>Total Transporte</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -328,6 +360,7 @@ export default function management() {
                         <td>$ {payHourExtra}</td>
                         <td>$ {payHourNight}</td>
                         <td>$ {payHourHoliday}</td>
+                        <td>$ {totalCostRoutes}</td>
                       </tr>
                     </tbody>
                   </Table>
