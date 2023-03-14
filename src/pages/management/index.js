@@ -18,11 +18,6 @@ export default function management() {
   const [dataWorkers, setDataWorkes] = useState([]);
   const [value, setValue] = useState(null);
   const [dataRoute, setDataRoute] = useState([]);
-  const handleClick = (event) => {
-    event.preventDefault();
-    formData.workerId = value;
-    dispatch(filterDayWorker(formData));
-  };
 
   const [formData, setFormData] = useState({
     workerId: "",
@@ -205,6 +200,18 @@ export default function management() {
     )
   );
 
+  const handleClick = (event) => {
+    event.preventDefault();
+    formData.workerId = value;
+    dispatch(filterDayWorker(formData));
+  };
+
+  const handleClick2 = (event) => {
+    event.preventDefault();
+    // formData.workerId = value;
+    // dispatch(filterDayWorker(formData));
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.container__data}>
@@ -366,6 +373,9 @@ export default function management() {
                   </Table>
                 </div>
                 <h2> Total Quincena: $ {total}</h2>
+                <div className={styles.data__buttonReport}>
+                  <button onClick={handleClick2}>Generar Informe</button>
+                </div>
               </div>
             </div>
           </>
