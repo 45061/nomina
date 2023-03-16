@@ -1,6 +1,6 @@
 const { Schema, model, models } = require("mongoose");
 
-const workerSchema = new Schema(
+const reportSchema = new Schema(
   {
     workerId: {
       require: true,
@@ -41,7 +41,7 @@ const workerSchema = new Schema(
       required: true,
       type: String,
     },
-    holidayHoursMoeny: {
+    holidayHoursMoney: {
       required: true,
       type: String,
     },
@@ -68,4 +68,4 @@ const workerSchema = new Schema(
   }
 );
 
-export default models.Worker || model("Worker", workerSchema);
+export default models.Report || model("Report", reportSchema);

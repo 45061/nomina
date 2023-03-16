@@ -412,7 +412,7 @@ export default function management() {
           numberLunches={arrayLunch.length}
           fullPayment={total}
           transport={totalCostRoutes}
-          holidayHoursMoeny={payHourHoliday}
+          holidayHoursMoney={payHourHoliday}
           holidayHours={`${totalHoursHoliday}:${totalMinutsHoliday}`}
           nightHoursMoney={payHourNight}
           nightHours={arrayHoursNight}

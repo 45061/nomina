@@ -53,9 +53,11 @@ const workerSchema = new Schema(
       required: true,
       type: Boolean,
     },
-
     workedDays: {
       type: [{ type: Schema.Types.ObjectId, ref: "Worked" }],
+    },
+    reports: {
+      type: [{ type: Schema.Types.ObjectId, ref: "Report" }],
     },
   },
   {
