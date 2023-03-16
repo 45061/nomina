@@ -154,7 +154,6 @@ export const routeSubsidy = (body) => async (dispatch) => {
 export const editRouteSubsidy = (body) => async (dispatch) => {
   try {
     const response = await axios.put("/api/routesCost", body);
-    console.log("esto es response", response);
 
     const { status } = response;
 
@@ -164,6 +163,22 @@ export const editRouteSubsidy = (body) => async (dispatch) => {
     }
   } catch (error) {
     console.log("hay un error en  editRouteSubsidy, no entra");
+    toast.error("Error en el en la creación");
+  }
+};
+
+export const postReport = (body) => async (dispatch) => {
+  try {
+    const response = await axios.post("/api/report", body);
+
+    const { status } = response;
+
+    if (status === 201) {
+      dispatch(reportForm());
+      toast.success("Reporte creado con exito");
+    }
+  } catch (error) {
+    console.log("hay un error en  postReport, no entra");
     toast.error("Error en el en la creación");
   }
 };

@@ -5,13 +5,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import InputValidator from "./ImputValidator";
 
 import styles from "../styles/components/Register.module.scss";
-import { workPlaceWorker } from "@/store/actions/workerAction";
+import { postReport } from "@/store/actions/workerAction";
 
 export default function LunchValue({
   numberLunches,
   fullPayment,
   transport,
-  holidayHoursMoeny,
+  holidayHoursMoney,
   holidayHours,
   nightHoursMoney,
   nightHours,
@@ -26,7 +26,7 @@ export default function LunchValue({
     numberLunches,
     fullPayment,
     transport,
-    holidayHoursMoeny,
+    holidayHoursMoney,
     holidayHours,
     nightHoursMoney,
     nightHours,
@@ -50,8 +50,7 @@ export default function LunchValue({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("esto son formData", formData);
-    // dispatch(workPlaceWorker(formData));
+    dispatch(postReport(formData));
   };
 
   return (
