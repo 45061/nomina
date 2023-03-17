@@ -1,17 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
-import axios from "axios";
 import dayjs from "dayjs";
 
 import styles from "../../styles/pages/management.module.scss";
 import { Table, Select, Divider } from "@mantine/core";
-import InputValidator from "@/components/ImputValidator";
-import { filterDayWorker } from "@/store/actions/workerAction";
 import PublicModal from "@/components/PublicModal";
-import LunchValue from "@/components/LunchValue";
 import { reportForm } from "@/store/actions/modalAction";
 import { getReports } from "../api/getPosts";
 
@@ -20,14 +16,12 @@ export default function report({ dataWorkers }) {
   const workers = JSON.parse(dataWorkers);
   // const { worker, daysWorker } = useSelector((state) => state.workerReducer);
   // const { showingReportForm } = useSelector((state) => state.modalReducer);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const largeScreen = useMediaQuery("(min-width: 1024px)");
 
-  // const [dataWorkers, setDataWorkes] = useState([]);
   const [value, setValue] = useState(null);
   const [view, setview] = useState(null);
-  const [dataRoute, setDataRoute] = useState([]);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -44,6 +38,10 @@ export default function report({ dataWorkers }) {
         return (
           <tr key={element._id}>
             <td>{workDay}</td>
+            <td>{`${dayjs(element.firstDate).$d.toString().substr(3, 13)}`}</td>
+            <td>{`${dayjs(element.secondDate)
+              .$d.toString()
+              .substr(3, 13)}`}</td>
             <td>{element.hoursToPay}</td>
             <td>${element.hoursToPayMoney}</td>
             <td>{element.extraHours}</td>
@@ -67,18 +65,11 @@ export default function report({ dataWorkers }) {
     setview(row);
   };
 
-  // const handleClick2 = (event) => {
-  //   event.preventDefault();
-  //   dispatch(reportForm());
-  //   // formData.workerId = value;
-  //   // dispatch(filterDayWorker(formData));
-  // };
-
   return (
     <div className={styles.container}>
       <div className={styles.container__data}>
         <div className={styles.data__dataUser}>
-          <h1>Bienvenido a la gestión de trabajadores</h1>
+          <h1>Bienvenido a la vista de informes</h1>
           <h2>
             Hola {user?.name} {user?.lastName}
           </h2>
@@ -112,30 +103,34 @@ export default function report({ dataWorkers }) {
         {!view ? (
           <div className={styles.data__workerW8}>
             <h2>Seleccionar trabajador</h2>
-            <h2>Seleccionar Fechas Deseadas</h2>
+            <h2>Para visualizar los informes</h2>
           </div>
         ) : (
           <>
             <Divider />
-            <Table striped highlightOnHover>
-              <thead>
-                <tr>
-                  <th>Fecha Informe</th>
-                  <th>Horas a Pagar</th>
-                  <th>Valor Horas</th>
-                  <th>Horas Extras</th>
-                  <th>Valor Horas Extras</th>
-                  <th>Horas Nocturnas</th>
-                  <th>Valor Horas Nocturnas</th>
-                  <th>Horas Festivas</th>
-                  <th>Valor Horas Festivas</th>
-                  <th>Valor Transporte</th>
-                  <th>Valor Almuerzos</th>
-                  <th>Valor Total</th>
-                </tr>
-              </thead>
-              <tbody>{view}</tbody>
-            </Table>
+            <div className={styles.tableOfWorkers}>
+              <Table striped highlightOnHover>
+                <thead>
+                  <tr>
+                    <th>Fecha Informe</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Cierre</th>
+                    <th>Horas a Pagar</th>
+                    <th>Valor Horas</th>
+                    <th>Horas Extras</th>
+                    <th>Valor Horas Extras</th>
+                    <th>Horas Nocturnas</th>
+                    <th>Valor Horas Nocturnas</th>
+                    <th>Horas Festivas</th>
+                    <th>Valor Horas Festivas</th>
+                    <th>Valor Transporte</th>
+                    <th>Valor Almuerzos</th>
+                    <th>Valor Total</th>
+                  </tr>
+                </thead>
+                <tbody>{view}</tbody>
+              </Table>
+            </div>
           </>
         )}
       </div>
