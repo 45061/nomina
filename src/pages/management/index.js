@@ -223,8 +223,6 @@ export default function management() {
     // dispatch(filterDayWorker(formData));
   };
 
-  console.log("esto es arrayLunch", arrayLunch.length);
-
   return (
     <div className={styles.container}>
       <div className={styles.container__data}>

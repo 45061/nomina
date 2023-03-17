@@ -58,11 +58,13 @@ export default async function handler(req, res) {
           return res.status(400).json({ msg: "this user is not authorized" });
         }
 
-        const workPlace = await WorkPlace.find();
+        const report = await Report.find();
+
+        // const workPlace = await WorkPlace.find();
 
         return res.status(201).json({
-          message: "WorkPlace Found",
-          workPlace,
+          message: "Report Found",
+          report,
         });
       } catch (error) {
         return res.status(400).json({ error: error.message });
