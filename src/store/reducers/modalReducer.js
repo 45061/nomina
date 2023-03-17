@@ -11,6 +11,7 @@ import {
   PLACE_OF_RECIDENCE,
   ROUTE_OF_COST,
   EDIT_ROUTE_OF_COST,
+  REPORT_FORM,
 } from "../types";
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   showingPlaceRecidence: false,
   showingRouteCost: false,
   showingEditRouteCost: false,
+  showingReportForm: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -89,6 +91,11 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showingEditRouteCost: !state.showingEditRouteCost,
+      };
+    case REPORT_FORM:
+      return {
+        ...state,
+        showingReportForm: !state.showingReportForm,
       };
 
     default:

@@ -14,13 +14,17 @@ export default function Navbar() {
       </Link>
       <div className={styles.container__nav}>
         {isAuth ? (
-          <Link href="/management" prefetch={false}>
-            <h3>Gestión</h3>
-          </Link>
+          <>
+            <Link href="/management" prefetch={false}>
+              <h3>Gestión</h3>
+            </Link>
+            <Link href="/report" prefetch={false}>
+              <h3>Informe</h3>
+            </Link>
+          </>
         ) : (
           <div></div>
         )}
-        <h3>Informe</h3>
         <MenuNavbar />
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 import axios from "axios";
 import dayjs from "dayjs";
 
@@ -9,20 +10,21 @@ import styles from "../../styles/pages/management.module.scss";
 import { Table, Select, Divider } from "@mantine/core";
 import InputValidator from "@/components/ImputValidator";
 import { filterDayWorker } from "@/store/actions/workerAction";
+import PublicModal from "@/components/PublicModal";
+import LunchValue from "@/components/LunchValue";
+import { reportForm } from "@/store/actions/modalAction";
 
 export default function management() {
   const { user } = useSelector((state) => state.authReducer);
   const { worker, daysWorker } = useSelector((state) => state.workerReducer);
+  const { showingReportForm } = useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
+
+  const largeScreen = useMediaQuery("(min-width: 1024px)");
 
   const [dataWorkers, setDataWorkes] = useState([]);
   const [value, setValue] = useState(null);
   const [dataRoute, setDataRoute] = useState([]);
-  const handleClick = (event) => {
-    event.preventDefault();
-    formData.workerId = value;
-    dispatch(filterDayWorker(formData));
-  };
 
   const [formData, setFormData] = useState({
     workerId: "",
@@ -158,12 +160,10 @@ export default function management() {
   const payHourNight = new Intl.NumberFormat("es-MX").format(
     ((arrayHoursNight * parseInt(worker.salary)) / 240) * 1.75
   );
-  const payHourHoliday = new Intl.NumberFormat("es-MX").format(
+  const payHourHoliday =
     (((arrayHoursHoliday + totalMinutsHoliday / 60) * parseInt(worker.salary)) /
       240) *
-      1.75
-  );
-
+    1.75;
   const arrayCostRoutes = [];
   if (worker !== false) {
     dataRoute
@@ -182,28 +182,46 @@ export default function management() {
     0
   );
 
-  const total = new Intl.NumberFormat("es-MX").format(
-    Math.round(
-      (((arrayHoursHoliday + totalMinutsHoliday / 60) *
+  const total = Math.round(
+    (((arrayHoursHoliday + totalMinutsHoliday / 60) * parseInt(worker.salary)) /
+      240) *
+      1.75 +
+      ((arrayHoursNight * parseInt(worker.salary)) / 240) * 1.75 +
+      (((totalHoursExtra -
+        totalHoursMust +
+        (totalMinutsExtra - totalMinutsMust) / 60) *
         parseInt(worker.salary)) /
         240) *
-        1.75 +
-        ((arrayHoursNight * parseInt(worker.salary)) / 240) * 1.75 +
-        (((totalHoursExtra -
-          totalHoursMust +
-          (totalMinutsExtra - totalMinutsMust) / 60) *
-          parseInt(worker.salary)) /
-          240) *
-          1.25 +
-        ((totalHours -
-          totalHoursExtra -
-          arrayHoursNight +
-          (totalMinuts - totalMinutsExtra) / 60) *
-          parseInt(worker.salary)) /
-          240 +
-        parseInt(totalCostRoutes)
-    )
+        1.25 +
+      ((totalHours -
+        totalHoursExtra -
+        arrayHoursNight +
+        (totalMinuts - totalMinutsExtra) / 60) *
+        parseInt(worker.salary)) /
+        240 +
+      parseInt(totalCostRoutes)
   );
+
+  const arrayLunch = [];
+
+  daysWorker.map((day) => {
+    if (day.lunch === false) {
+      arrayLunch.push(1);
+    }
+  });
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    formData.workerId = value;
+    dispatch(filterDayWorker(formData));
+  };
+
+  const handleClick2 = (event) => {
+    event.preventDefault();
+    dispatch(reportForm());
+    // formData.workerId = value;
+    // dispatch(filterDayWorker(formData));
+  };
 
   return (
     <div className={styles.container}>
@@ -359,18 +377,54 @@ export default function management() {
                         <td>$ {payHour}</td>
                         <td>$ {payHourExtra}</td>
                         <td>$ {payHourNight}</td>
-                        <td>$ {payHourHoliday}</td>
+                        <td>
+                          ${" "}
+                          {new Intl.NumberFormat("es-MX").format(
+                            payHourHoliday
+                          )}
+                        </td>
                         <td>$ {totalCostRoutes}</td>
                       </tr>
                     </tbody>
                   </Table>
                 </div>
-                <h2> Total Quincena: $ {total}</h2>
+                <h2>
+                  {" "}
+                  Total Quincena: ${" "}
+                  {new Intl.NumberFormat("es-MX").format(total)}
+                </h2>
+                <div className={styles.data__buttonReport}>
+                  <button onClick={handleClick2}>Crear Informe</button>
+                </div>
               </div>
             </div>
           </>
         )}
       </div>
+      <PublicModal
+        opened={showingReportForm}
+        onClose={() => dispatch(reportForm())}
+        size={largeScreen ? "40%" : "100%"}
+      >
+        <LunchValue
+          numberLunches={arrayLunch.length}
+          fullPayment={total}
+          transport={totalCostRoutes}
+          holidayHoursMoney={payHourHoliday}
+          holidayHours={`${totalHoursHoliday}:${totalMinutsHoliday}`}
+          nightHoursMoney={payHourNight}
+          nightHours={arrayHoursNight}
+          extraHoursMoney={payHourExtra}
+          extraHours={`${totalHoursExtra - totalHoursMust}:${
+            totalMinutsExtra - totalMinutsMust
+          }`}
+          hoursToPayMoney={payHour}
+          hoursToPay={`${totalHours - totalHoursExtra - arrayHoursNight}:${
+            totalMinuts - totalMinutsExtra
+          }`}
+          data={formData}
+        />
+      </PublicModal>
     </div>
   );
 }
