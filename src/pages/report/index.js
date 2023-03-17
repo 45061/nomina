@@ -35,19 +35,31 @@ export default function report({ dataWorkers }) {
 
     const row = worker[0].reports
       .map((element) => {
+        const workDay = `${dayjs(element.createdAt)
+          .$d.toString()
+          .substr(3, 13)}`;
+        const lunches =
+          parseInt(element.numberLunches) * parseInt(element.valueLunches);
+        console.log("esto es element", element);
         return (
           <tr key={element._id}>
+            <td>{workDay}</td>
             <td>{element.hoursToPay}</td>
-
-            <td>{element.hoursToPayMoney}</td>
-
+            <td>${element.hoursToPayMoney}</td>
             <td>{element.extraHours}</td>
-
-            <td>{element.extraHoursMoney} </td>
-
+            <td>${element.extraHoursMoney} </td>
             <td>{element.nightHours}</td>
-
-            <td>{element.nightHoursMoney}</td>
+            <td>${element.nightHoursMoney}</td>
+            <td>{element.holidayHours}</td>
+            <td>${element.holidayHoursMoney}</td>
+            <td>${new Intl.NumberFormat("es-MX").format(element.transport)}</td>
+            <td>${new Intl.NumberFormat("es-MX").format(lunches)}</td>
+            <td>
+              $
+              {new Intl.NumberFormat("es-MX").format(
+                parseInt(element.fullPayment) - parseInt(lunches)
+              )}
+            </td>
           </tr>
         );
       })
@@ -108,13 +120,18 @@ export default function report({ dataWorkers }) {
             <Table striped highlightOnHover>
               <thead>
                 <tr>
+                  <th>Fecha Informe</th>
                   <th>Horas a Pagar</th>
                   <th>Valor Horas</th>
                   <th>Horas Extras</th>
-                  <th>Vlor Horas Extras</th>
+                  <th>Valor Horas Extras</th>
                   <th>Horas Nocturnas</th>
                   <th>Valor Horas Nocturnas</th>
-                  <th>Trabajo en:</th>
+                  <th>Horas Festivas</th>
+                  <th>Valor Horas Festivas</th>
+                  <th>Valor Transporte</th>
+                  <th>Valor Almuerzos</th>
+                  <th>Valor Total</th>
                 </tr>
               </thead>
               <tbody>{view}</tbody>
