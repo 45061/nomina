@@ -6,6 +6,7 @@ import {
   editWorkerForm,
   placeRecidence,
   placeWorkerDay,
+  reportForm,
   routeCost,
   workerDayForm,
   workerRegisterForm,
